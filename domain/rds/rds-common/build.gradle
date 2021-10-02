@@ -1,0 +1,6 @@
+apply from: "../rds-common.gradle"
+
+dependencies {
+    api("org.springframework.boot:spring-boot-starter-security")
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.7.0")
+}
