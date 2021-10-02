@@ -1,4 +1,4 @@
-package me.whypie.config
+package me.whypie.domain.config
 
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration
 import me.whypie.domain.config.DataJpaConfig
