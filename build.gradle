@@ -1,0 +1,104 @@
+/**
+ * buildscript : 스프링 부트 플러그인을 사용할 수 있는 기본 바탕 정의
+ *  - SpringBoot Version 정보
+ *  - kotlin Version 정보
+ *  - Maven Repository 정보
+ *  - Dependency 모듈 지정
+ */
+buildscript {
+    ext {
+        spring = "2.5.5"
+        kotlin = "1.5.31"
+        boot = "org.springframework.boot"
+    }
+
+    repositories {
+        mavenCentral() // Apache Maven Central dependencies repository 사용을 위한 설정
+    }
+
+    dependencies {
+        classpath("${boot}:spring-boot-gradle-plugin:${spring}") //spring-boot project를 gradle로 build하기 위한 dependency
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin}")
+        classpath("io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE")
+        classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlin}")
+        classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlin}")
+
+    }
+}
+
+/**
+ * allprojects : 모든 프로젝트에 공통적으로 적용될 내용을 기술
+ */
+allprojects {
+    group = "me.whypie"
+    version = "1.0.0"
+}
+
+/**
+ * subprojects : root 하위에 있는 모듈에 공통적으로 적용될 내용을 기술
+ *  - subprojects scope내에서 plugins 블록을 사용 불가하므로 apply plugin을 사용하여 plugin을 적용
+ *    - core plugin 외의 community plugin의 버전은 앞서 plugins 블록에 선언한 버전을 참조
+ *  - apply plugin : 적용할 Gradle 플러그인 명시
+ */
+subprojects {
+    apply plugin: "kotlin" // kotlin project 개발 및 build를 위한 plugin
+    apply plugin: "kotlin-spring"
+    apply plugin: "kotlin-jpa"
+    apply plugin: "kotlin-allopen"
+    allOpen {
+        annotation "javax.persistence.Entity"
+    }
+    /**
+     * spring boot plugin : org.springframework.boot, io.spring.dependency-management
+     *  - spring boot project의 build 및 실행 가능한 jar파일 생성을 위한 plugin
+     */
+    apply plugin: boot
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "idea"
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        runtimeClasspath {
+            extendsFrom developmentOnly
+        }
+    }
+
+    compileKotlin {
+        kotlinOptions {
+            /**
+             * freeCompilerArgs = ["-Xjsr305=strict"] 옵션
+             * 컴파일 시점에 JSR 305 Annotations + Spring Nullability Annotation을 통해
+             * Kotlin의 null-safety 기능 적용을 위한 컴파일러 옵션
+             *  - 참고 URL : https://infoscis.github.io/2018/08/30/spring-boot-kotlin/
+             */
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "11" // Kotlin의 기본 JVM target version이 1.6이므로 java version에 맞춰 compile 옵션 명시
+        }
+    }
+
+    compileTestKotlin {
+        kotlinOptions {
+            freeCompilerArgs = ["-Xjsr305=strict"]
+            jvmTarget = "11"
+        }
+    }
+
+    dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("io.github.microutils:kotlin-logging-jvm:2.0.6")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
+help.enabled(false)
