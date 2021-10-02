@@ -46,4 +46,17 @@ data class Member(
     @Enumerated(EnumType.STRING)
     var roles: MutableSet<MemberRole> = mutableSetOf(MemberRole.UNCERTIFIED_MEMBER),
 
-    ) : Auditor()
+) : Auditor() {
+
+    fun addRoles(additionRoles: Set<MemberRole>) {
+        roles.addAll(additionRoles)
+    }
+
+    fun removeRoles(removalRoles: Set<MemberRole>) {
+        if (removalRoles == roles) {
+            throw IllegalArgumentException("최소 하나 이상의 권한이 존재해야 합니다.")
+        }
+        roles.removeAll(removalRoles)
+    }
+
+}
