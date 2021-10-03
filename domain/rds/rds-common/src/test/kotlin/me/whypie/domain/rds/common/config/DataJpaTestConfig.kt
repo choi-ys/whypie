@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.Import
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestConstructor
 import javax.persistence.EntityManager
 
@@ -16,6 +17,7 @@ import javax.persistence.EntityManager
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration::class)
 @Import(P6spyLogMessageFormatConfiguration::class, DataJpaConfig::class)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
+@ActiveProfiles("test")
 class DataJpaTestConfig {
 
     @Autowired
