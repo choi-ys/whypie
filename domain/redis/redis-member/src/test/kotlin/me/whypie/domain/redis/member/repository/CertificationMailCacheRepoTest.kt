@@ -10,22 +10,24 @@ import org.junit.jupiter.api.Test
  * @author : choi-ys
  * @date : 2021-10-03 오후 10:07
  */
-@DisplayName("Redis:Repository:CertificationMailCache")
+@DisplayName("Redis:Repo:CertificationMailCache")
 internal class CertificationMailCacheRepoTest(
     private val certificationMailCacheRepo: CertificationMailCacheRepo
 ) : DataRedisTestConfig() {
 
     private fun savedCertificationMailCache(): CertificationMailCache {
         val email = "project.log.062@gmail.com"
-        return certificationMailCacheRepo.save(CertificationMailCache(email = email))
+        val certificationNumber = (100000..200000).random()
+        return certificationMailCacheRepo.save(CertificationMailCache(email = email, certificationNumber = certificationNumber))
     }
 
     @Test
     @DisplayName("인증 메일 캐시 저장")
-    internal fun name() {
+    internal fun save() {
         // Given
         val email = "project.log.062@gmail.com"
-        val certificationMailCache = CertificationMailCache(email = email)
+        val certificationNumber = (100000..200000).random()
+        val certificationMailCache = CertificationMailCache(email = email, certificationNumber = certificationNumber)
 
         // When
         val savedCertificationMailCache = certificationMailCacheRepo.save(certificationMailCache)
@@ -57,7 +59,7 @@ internal class CertificationMailCacheRepoTest(
     @DisplayName("[Fail]만료 토큰 조회")
     internal fun findById_HitFail() {
         // Given
-        val invalidId = "project.log.062@gmail.com"
+        val invalidId = "rcn115@naver.com"
 
         // When & Then
         assertThrows(RuntimeException::class.java) {

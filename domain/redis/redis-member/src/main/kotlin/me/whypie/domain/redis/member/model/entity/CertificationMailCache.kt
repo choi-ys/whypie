@@ -11,5 +11,5 @@ import org.springframework.data.redis.core.RedisHash
 data class CertificationMailCache(
     @Id
     var email: String,
-    var certificationNumber: Int = (100000..200000).random()
+    var certificationNumber: Int
 )
