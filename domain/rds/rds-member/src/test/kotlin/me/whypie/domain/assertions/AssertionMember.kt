@@ -14,14 +14,14 @@ import org.junit.jupiter.api.Assertions.assertEquals
  */
 interface AssertionMember {
     companion object {
-        fun assertMember(entity: Member, given: Member) {
+        fun assertMember(expected: Member, given: Member) {
             Assertions.assertAll(
-                { assertDateAuditor(entity) },
-                { assertEquals(entity.id, given.id, MUST_EXIST_PK) },
-                { assertEquals(entity.email, given.email, MUST_EQUALS) },
-                { assertEquals(entity.name, given.name, MUST_EQUALS) },
-                { assertEquals(entity.nickname, given.nickname, MUST_EQUALS) },
-                { assertEquals(entity.roles, given.roles, MUST_EXIST) },
+                { assertDateAuditor(expected) },
+                { assertEquals(expected.id, given.id, MUST_EXIST_PK) },
+                { assertEquals(expected.email, given.email, MUST_EQUALS) },
+                { assertEquals(expected.name, given.name, MUST_EQUALS) },
+                { assertEquals(expected.nickname, given.nickname, MUST_EQUALS) },
+                { assertEquals(expected.roles, given.roles, MUST_EXIST) },
             )
         }
     }

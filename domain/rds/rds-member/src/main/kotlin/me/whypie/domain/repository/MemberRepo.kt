@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository
  * @date : 2021-10-02 오후 10:59
  */
 interface MemberRepo : JpaRepository<Member, Long> {
+    fun existsByEmail(email: String): Boolean
 }
