@@ -62,7 +62,7 @@ class MemberRepoTest(
         flushAndClear()
 
         // When
-        val expected = memberRepo.findById(savedMember.id).orElseThrow()
+        val expected = memberRepo.findById(savedMember.id).orElseThrow() { throw IllegalArgumentException("") }
 
         // Then
         assertAll(
@@ -97,7 +97,7 @@ class MemberRepoTest(
         flushAndClear()
 
         // Then
-        val expected = memberRepo.findById(savedMember.id).orElseThrow()
+        val expected = memberRepo.findById(savedMember.id).orElseThrow() { throw IllegalArgumentException("") }
         assertAll(
             { assertMember(expected, savedMember) },
             { assertTrue(savedMember.roles.containsAll(additionRoles), "추가한 권한의 적용 여부 확인") }
@@ -120,7 +120,7 @@ class MemberRepoTest(
         flush()
 
         // Then
-        val expected = memberRepo.findById(savedMember.id).orElseThrow()
+        val expected = memberRepo.findById(savedMember.id).orElseThrow() { throw IllegalArgumentException("") }
         assertAll(
             { assertMember(expected, savedMember) },
             { assertFalse(savedMember.roles.containsAll(removalRoles), "제거된 권한의 적용 여부 확인") }
@@ -140,7 +140,7 @@ class MemberRepoTest(
         }
 
         // Then
-        val expected = memberRepo.findById(savedMember.id).orElseThrow()
+        val expected = memberRepo.findById(savedMember.id).orElseThrow() { throw IllegalArgumentException("") }
         Assertions.assertAll(
             { assertMember(expected, savedMember) },
             { assertEquals(exception.javaClass.simpleName, IllegalArgumentException::class.java.simpleName) },

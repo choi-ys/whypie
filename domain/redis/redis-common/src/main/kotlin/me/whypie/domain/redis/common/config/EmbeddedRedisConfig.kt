@@ -29,7 +29,6 @@ class EmbeddedRedisConfig {
     @Throws(IOException::class)
     fun redisServer() {
         var port = if (isRedisRunning()) findAvailablePort() else redisPort
-        port = 6379
         redisServer = RedisServer(port)
         try {
             redisServer!!.start()

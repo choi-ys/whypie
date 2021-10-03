@@ -28,13 +28,6 @@ class P6spySqlFormatConfiguration : MessageFormattingStrategy {
                 " | duration " + elapsed + "ms | connection " + connectionId + sql
     }
 
-    private fun addSeparator(str: String) {
-    }
-
-    private fun metaLogFormatter(vararg test: String): String {
-        return ""
-    }
-
     private fun formatSql(category: String, sql: String?): String? {
         var sql = sql
         if (sql == null || sql.trim { it <= ' ' } == "") return sql

@@ -18,7 +18,12 @@ internal class CertificationMailCacheRepoTest(
     private fun savedCertificationMailCache(): CertificationMailCache {
         val email = "project.log.062@gmail.com"
         val certificationNumber = (100000..200000).random()
-        return certificationMailCacheRepo.save(CertificationMailCache(email = email, certificationNumber = certificationNumber))
+        return certificationMailCacheRepo.save(
+            CertificationMailCache(
+                email = email,
+                certificationNumber = certificationNumber
+            )
+        )
     }
 
     @Test
@@ -33,7 +38,8 @@ internal class CertificationMailCacheRepoTest(
         val savedCertificationMailCache = certificationMailCacheRepo.save(certificationMailCache)
 
         // Then
-        val expected: CertificationMailCache = certificationMailCacheRepo.findById(email).orElseThrow()
+        val expected: CertificationMailCache =
+            certificationMailCacheRepo.findById(email).orElseThrow() { throw NoSuchElementException("") }
 
         assertEquals(expected.email, email)
         assertEquals(savedCertificationMailCache.email, email)
@@ -46,7 +52,8 @@ internal class CertificationMailCacheRepoTest(
         val savedCertificationMailCache = savedCertificationMailCache()
 
         // When
-        val expected = certificationMailCacheRepo.findById(savedCertificationMailCache.email).orElseThrow()
+        val expected = certificationMailCacheRepo.findById(savedCertificationMailCache.email)
+            .orElseThrow() { throw IllegalArgumentException("") }
 
         // When
         assertAll(
@@ -63,7 +70,7 @@ internal class CertificationMailCacheRepoTest(
 
         // When & Then
         assertThrows(RuntimeException::class.java) {
-            certificationMailCacheRepo.findById(invalidId).orElseThrow()
+            certificationMailCacheRepo.findById(invalidId).orElseThrow() { throw NoSuchElementException("") }
         }.let {
             assertEquals(it.javaClass.simpleName, NoSuchElementException::class.java.simpleName)
         }
