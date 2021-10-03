@@ -4,3 +4,4 @@ include("domain:rds:rds-common")
 include("domain:rds:rds-member")
 
 include("domain:redis:redis-common")
+include("domain:redis:redis-member")
