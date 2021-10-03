@@ -1,7 +1,7 @@
-package me.whypie.domain.generator
+package me.whypie.domain.rds.common.generator
 
-import me.whypie.domain.model.entity.Member
-import me.whypie.domain.repository.MemberRepo
+import me.whypie.domain.rds.common.model.entity.Member
+import me.whypie.domain.rds.common.repository.MemberRepo
 import org.springframework.beans.factory.annotation.Autowired
 
 /**

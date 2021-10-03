@@ -1,6 +1,6 @@
-package me.whypie.domain.model.entity
+package me.whypie.domain.rds.common.model.entity
 
-import me.whypie.domain.generator.MemberGenerator
+import me.whypie.domain.rds.common.generator.MemberGenerator
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

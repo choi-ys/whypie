@@ -1,6 +1,6 @@
-package me.whypie.domain.model.entity
+package me.whypie.domain.rds.common.model.entity
 
-import me.whypie.domain.model.entity.base.auditor.Auditor
+import me.whypie.domain.rds.common.model.entity.base.auditor.Auditor
 import javax.persistence.*
 
 /**
@@ -46,7 +46,7 @@ data class Member(
     @Enumerated(EnumType.STRING)
     var roles: MutableSet<MemberRole> = mutableSetOf(MemberRole.UNCERTIFIED_MEMBER),
 
-) : Auditor() {
+    ) : Auditor() {
 
     fun addRoles(additionRoles: Set<MemberRole>) {
         roles.addAll(additionRoles)

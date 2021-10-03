@@ -1,10 +1,10 @@
-package me.whypie.domain.assertions
+package me.whypie.domain.rds.common.assertions
 
-import me.whypie.domain.assertions.AssertionEntity.Companion.MUST_EQUALS
-import me.whypie.domain.assertions.AssertionEntity.Companion.MUST_EXIST
-import me.whypie.domain.assertions.AssertionEntity.Companion.MUST_EXIST_PK
-import me.whypie.domain.assertions.AssertionEntity.Companion.assertDateAuditor
-import me.whypie.domain.model.entity.Member
+import me.whypie.domain.rds.common.assertions.AssertionEntity.Companion.MUST_EQUALS
+import me.whypie.domain.rds.common.assertions.AssertionEntity.Companion.MUST_EXIST
+import me.whypie.domain.rds.common.assertions.AssertionEntity.Companion.MUST_EXIST_PK
+import me.whypie.domain.rds.common.assertions.AssertionEntity.Companion.assertDateAuditor
+import me.whypie.domain.rds.common.model.entity.Member
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 

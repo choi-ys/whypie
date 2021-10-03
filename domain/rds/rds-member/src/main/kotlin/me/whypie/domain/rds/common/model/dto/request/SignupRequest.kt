@@ -1,6 +1,6 @@
-package me.whypie.domain.model.dto.request
+package me.whypie.domain.rds.common.model.dto.request
 
-import me.whypie.domain.model.entity.Member
+import me.whypie.domain.rds.common.model.entity.Member
 import org.springframework.security.crypto.password.PasswordEncoder
 
 /**

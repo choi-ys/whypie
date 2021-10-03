@@ -1,4 +1,4 @@
-package me.whypie.domain
+package me.whypie.domain.rds.common
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 

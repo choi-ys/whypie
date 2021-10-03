@@ -1,8 +1,8 @@
-package me.whypie.domain.service
+package me.whypie.domain.rds.common.service
 
-import me.whypie.domain.model.dto.request.SignupRequest
-import me.whypie.domain.model.dto.response.MemberProfileResponse
-import me.whypie.domain.repository.MemberRepo
+import me.whypie.domain.rds.common.model.dto.request.SignupRequest
+import me.whypie.domain.rds.common.model.dto.response.MemberProfileResponse
+import me.whypie.domain.rds.common.repository.MemberRepo
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

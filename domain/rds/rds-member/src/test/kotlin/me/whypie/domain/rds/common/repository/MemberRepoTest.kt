@@ -1,10 +1,10 @@
-package me.whypie.domain.repository
+package me.whypie.domain.rds.common.repository
 
-import me.whypie.domain.config.DataJpaTestConfig
-import me.whypie.domain.assertions.AssertionMember.Companion.assertMember
-import me.whypie.domain.generator.MemberGenerator
-import me.whypie.domain.model.entity.Member
-import me.whypie.domain.model.entity.MemberRole
+import me.whypie.domain.rds.common.config.DataJpaTestConfig
+import me.whypie.domain.rds.common.assertions.AssertionMember.Companion.assertMember
+import me.whypie.domain.rds.common.generator.MemberGenerator
+import me.whypie.domain.rds.common.model.entity.Member
+import me.whypie.domain.rds.common.model.entity.MemberRole
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName

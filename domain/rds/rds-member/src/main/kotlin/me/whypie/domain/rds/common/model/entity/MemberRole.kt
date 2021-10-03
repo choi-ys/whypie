@@ -1,4 +1,4 @@
-package me.whypie.domain.model.entity
+package me.whypie.domain.rds.common.model.entity
 
 /**
  * @author : choi-ys

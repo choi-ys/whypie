@@ -1,8 +1,8 @@
-package me.whypie.domain.service
+package me.whypie.domain.rds.common.service
 
-import me.whypie.domain.model.dto.request.SignupRequest
-import me.whypie.domain.model.entity.Member
-import me.whypie.domain.repository.MemberRepo
+import me.whypie.domain.rds.common.model.dto.request.SignupRequest
+import me.whypie.domain.rds.common.model.entity.Member
+import me.whypie.domain.rds.common.repository.MemberRepo
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

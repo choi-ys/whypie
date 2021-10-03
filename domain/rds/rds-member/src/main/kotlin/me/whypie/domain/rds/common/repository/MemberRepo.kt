@@ -1,6 +1,6 @@
-package me.whypie.domain.repository
+package me.whypie.domain.rds.common.repository
 
-import me.whypie.domain.model.entity.Member
+import me.whypie.domain.rds.common.model.entity.Member
 import org.springframework.data.jpa.repository.JpaRepository
 
 /**

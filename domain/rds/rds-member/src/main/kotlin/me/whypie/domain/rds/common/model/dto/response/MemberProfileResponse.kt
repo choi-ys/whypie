@@ -1,6 +1,6 @@
-package me.whypie.domain.model.dto.response
+package me.whypie.domain.rds.common.model.dto.response
 
-import me.whypie.domain.model.entity.Member
+import me.whypie.domain.rds.common.model.entity.Member
 
 /**
  * @author : choi-ys
