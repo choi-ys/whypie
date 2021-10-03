@@ -1,4 +1,4 @@
-package me.whypie.domain.model.entity.base.auditor
+package me.whypie.domain.rds.common.model.entity.base.auditor
 
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp

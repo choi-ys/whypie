@@ -1,6 +1,6 @@
-package me.whypie.domain.config
+package me.whypie.domain.rds.common.config
 
-import me.whypie.domain.model.entity.base.auditor.AuditorWAwareImpl
+import me.whypie.domain.rds.common.model.entity.base.auditor.AuditorWAwareImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.domain.AuditorAware

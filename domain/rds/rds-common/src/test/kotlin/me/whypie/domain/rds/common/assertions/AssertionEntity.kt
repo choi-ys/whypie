@@ -1,6 +1,6 @@
-package me.whypie.domain.assertions
+package me.whypie.domain.rds.common.assertions
 
-import me.whypie.domain.model.entity.base.auditor.Auditor
+import me.whypie.domain.rds.common.model.entity.base.auditor.Auditor
 import org.junit.jupiter.api.Assertions
 import org.springframework.util.Assert
 

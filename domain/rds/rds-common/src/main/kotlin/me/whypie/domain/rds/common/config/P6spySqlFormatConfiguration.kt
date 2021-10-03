@@ -1,4 +1,4 @@
-package me.whypie.domain.config
+package me.whypie.domain.rds.common.config
 
 import com.p6spy.engine.logging.Category
 import com.p6spy.engine.spy.appender.MessageFormattingStrategy

@@ -1,4 +1,4 @@
-package me.whypie.domain.model.entity.base.auditor
+package me.whypie.domain.rds.common.model.entity.base.auditor
 
 import org.springframework.data.domain.AuditorAware
 import org.springframework.security.authentication.AnonymousAuthenticationToken

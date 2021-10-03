@@ -1,8 +1,6 @@
-package me.whypie.domain.config
+package me.whypie.domain.rds.common.config
 
 import com.github.gavlyukovskiy.boot.jdbc.decorator.DataSourceDecoratorAutoConfiguration
-import me.whypie.domain.config.DataJpaConfig
-import me.whypie.domain.config.P6spyLogMessageFormatConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
