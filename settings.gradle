@@ -2,3 +2,5 @@ rootProject.name = "whypie"
 
 include("domain:rds:rds-common")
 include("domain:rds:rds-member")
+
+include("domain:redis:redis-common")
