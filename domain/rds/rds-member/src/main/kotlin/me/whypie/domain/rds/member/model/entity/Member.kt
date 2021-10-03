@@ -48,6 +48,10 @@ data class Member(
 
     ) : Auditor() {
 
+    fun completeCertification(){
+        roles = mutableSetOf(MemberRole.CERTIFIED_MEMBER)
+    }
+
     fun addRoles(additionRoles: Set<MemberRole>) {
         roles.addAll(additionRoles)
     }
