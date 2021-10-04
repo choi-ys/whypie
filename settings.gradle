@@ -1,8 +1,36 @@
 rootProject.name = "whypie"
 
-include("domain:rds:rds-common")
-include("domain:rds:rds-member")
-include("domain:member-service")
+findModule(rootDir)
 
-include("domain:redis:redis-common")
-include("domain:redis:redis-member")
+def findModule(File directory) {
+    directory.eachDir { it ->
+        def gradleFile = new File(it, "build.gradle")
+        if (gradleFile.exists()) {
+            includeModule(it)
+        } else {
+            findModule(it)
+        }
+    }
+}
+
+def includeModule(File moduleDir) {
+    def modulePath = moduleDir.toString()
+    def moduleName = makeProjectName(
+            modulePath.substring(
+                    modulePath.indexOf(rootDir.name), modulePath.length()
+            ).substring(rootDir.name.length() + 1)
+    )
+
+    include(moduleName)
+    project(moduleName).projectDir = moduleDir
+
+    println "module include complete => ${moduleName}, ${moduleDir}"
+}
+
+def makeProjectName(directoryName) {
+    def path = ":"
+    directoryName.toString().tokenize("\\").each {
+        path = path.concat("${it}-")
+    }
+    return path.substring(0, path.length() - 1)
+}

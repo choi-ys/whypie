@@ -1,6 +1,6 @@
 dependencies {
-    api project(":domain:rds:rds-common")
-    testApi project(":domain:rds:rds-common").sourceSets.test.output
+    api project(":domain-rds-rds-common")
+    testApi project(":domain-rds-rds-common").sourceSets.test.output
 }
 
 bootJar.enabled(false)
