@@ -29,8 +29,14 @@ def includeModule(File moduleDir) {
 
 def makeProjectName(directoryName) {
     def path = ":"
-    directoryName.toString().tokenize("\\").each {
-        path = path.concat("${it}-")
+    if (System.properties['os.name'].toLowerCase().contains('windows')) {
+        directoryName.toString().tokenize("\\").each {
+            path = path.concat("${it}-")
+        }
+    } else {
+        directoryName.toString().tokenize("/").each {
+            path = path.concat("${it}-")        }
     }
+
     return path.substring(0, path.length() - 1)
 }
