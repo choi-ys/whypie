@@ -1,4 +1,4 @@
-WhyPie project package structure
+Project - [WhyPie]  
 ===
 
 ## Development environment
@@ -12,6 +12,8 @@ WhyPie project package structure
 |DBMS|H2, MySQL 5.7|
 |Repository|Redis|
 |DevOps|EC2, ECR, Docker, Jenkins|
+
+## Package structure
 
 ```
 ├─application                       독립적으로 실행 가능한 어플리케이션 모듈 계층
