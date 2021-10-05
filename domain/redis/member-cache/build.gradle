@@ -1,0 +1,7 @@
+dependencies {
+    api project(":domain-redis-common")
+    testApi project(":domain-redis-common").sourceSets.test.output
+}
+
+bootJar.enabled(false)
+jar.enabled(true)

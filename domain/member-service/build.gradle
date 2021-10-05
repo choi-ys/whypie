@@ -1,8 +1,8 @@
 dependencies {
-    api project(":domain-rds-rds-member")
-    testApi project(":domain-rds-rds-member").sourceSets.test.output
-    api project(":domain-redis-redis-member")
-    testApi project(":domain-redis-redis-member").sourceSets.test.output
+    api project(":domain-rds-member-core")
+    testApi project(":domain-rds-member-core").sourceSets.test.output
+    api project(":domain-redis-member-cache")
+    testApi project(":domain-redis-member-cache").sourceSets.test.output
 
     implementation("org.springframework.boot:spring-boot-starter-mail")
 }

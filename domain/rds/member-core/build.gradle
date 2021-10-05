@@ -1,0 +1,7 @@
+dependencies {
+    api project(":domain-rds-common")
+    testApi project(":domain-rds-common").sourceSets.test.output
+}
+
+bootJar.enabled(false)
+jar.enabled(true)
