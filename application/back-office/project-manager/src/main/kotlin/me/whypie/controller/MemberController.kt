@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 /**
  * @author : choi-ys
@@ -24,6 +25,6 @@ class MemberController(
 ) {
 
     @PostMapping
-    fun signup(@RequestBody signupRequest: SignupRequest): ResponseEntity<*> =
+    fun signup(@Valid @RequestBody signupRequest: SignupRequest): ResponseEntity<*> =
         ResponseEntity.ok(memberService.signup(signupRequest))
 }
