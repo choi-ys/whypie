@@ -4,14 +4,14 @@ import me.whypie.error.ErrorCode
 import me.whypie.error.ErrorResource
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
-import org.springframework.web.bind.annotation.RestControllerAdvice
 import javax.servlet.http.HttpServletRequest
 
 /**
  * @author : choi-ys
  * @date : 2021/10/05 5:46 오후
  */
-@RestControllerAdvice
+// TODO local gradle build시, HttpMessageNotReadableException이 RuntimeException Handler로 catch되어 TC 실패 하는 현상
+//@RestControllerAdvice
 class ServerExceptionAdvice {
     @ExceptionHandler(RuntimeException::class)
     fun runtimeException(exception: RuntimeException, request: HttpServletRequest): ResponseEntity<*>? {
