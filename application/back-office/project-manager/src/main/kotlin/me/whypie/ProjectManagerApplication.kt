@@ -1,7 +1,7 @@
 package me.whypie
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+import org.springframework.boot.builder.SpringApplicationBuilder
 
 /**
  * @author : choi-ys
@@ -11,5 +11,11 @@ import org.springframework.boot.runApplication
 class ProjectManagerApplication
 
 fun main(args: Array<String>) {
-    runApplication<ProjectManagerApplication>(*args)
+    SpringApplicationBuilder(ProjectManagerApplication::class.java)
+        .properties(
+            "spring.config.location=" +
+                    "classpath:application-${System.getProperty("spring.profiles.active")}.yml," +
+                    "classpath:rds-${System.getProperty("spring.profiles.active")}.yml," +
+                    "classpath:redis-${System.getProperty("spring.profiles.active")}.yml"
+        ).run(*args)
 }

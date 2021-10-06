@@ -1,4 +1,11 @@
 spring:
+
+  # [JPA]
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+  # [Redis]
   redis:
     host: localhost
     port: 6379

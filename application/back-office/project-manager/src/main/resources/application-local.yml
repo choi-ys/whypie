@@ -1,0 +1,6 @@
+spring:
+
+  # [JPA]
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
