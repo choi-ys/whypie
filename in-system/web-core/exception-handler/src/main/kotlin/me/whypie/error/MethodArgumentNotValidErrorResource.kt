@@ -2,7 +2,7 @@ package me.whypie.error
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
-import me.whypie.error.format.ErrorResourcePropertiesInterface
+import me.whypie.error.format.ErrorResourcePropertiesAbstract
 import org.springframework.validation.FieldError
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
@@ -17,13 +17,17 @@ data class MethodArgumentNotValidErrorResource(
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     override val code: String,
+
     override val message: String,
 
     override val method: String,
-    override val path: String,
-    private val errorDetails: List<ErrorDetail>? = null,
 
-) : ErrorResourcePropertiesInterface {
+    override val path: String,
+
+    val errorDetails: List<ErrorDetail>,
+
+) : ErrorResourcePropertiesAbstract(code = code, message = message, method = method, path = path) {
+
     companion object {
         fun create(
             errorCode: ErrorCode,
@@ -35,7 +39,6 @@ data class MethodArgumentNotValidErrorResource(
                 message = errorCode.message,
                 method = httpServletRequest.method,
                 path = httpServletRequest.requestURI,
-                timestamp = LocalDateTime.now(),
                 errorDetails = ErrorDetail.mapTo(fieldError)
             )
         }

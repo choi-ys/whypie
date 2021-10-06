@@ -2,7 +2,7 @@ package me.whypie.error
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude
-import me.whypie.error.format.ErrorResourcePropertiesInterface
+import me.whypie.error.format.ErrorResourcePropertiesAbstract
 import org.springframework.util.StringUtils
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
@@ -17,11 +17,14 @@ data class ErrorResource(
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     override var code: String,
+
     override var message: String,
 
     override var method: String,
+
     override var path: String,
-) : ErrorResourcePropertiesInterface {
+
+) : ErrorResourcePropertiesAbstract(code = code, message = message, method = method, path = path) {
     companion object {
         fun create(errorCode: ErrorCode, httpServletRequest: HttpServletRequest): ErrorResource {
             return ErrorResource(
