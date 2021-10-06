@@ -8,11 +8,11 @@ import java.util.stream.Collectors
  * @date : 2021/10/05 5:48 오후
  */
 data class ErrorDetail(
-    private var objectName: String,
-    private val field: String,
-    private val code: String? = null,
-    private val rejectMessage: String? = null,
-    private val rejectedValue: Any? = null,
+    var objectName: String,
+    val field: String,
+    val code: String? = null,
+    val rejectMessage: String? = null,
+    val rejectedValue: Any? = null,
 ) {
     companion object {
         fun mapTo(fieldErrors: List<FieldError>): List<ErrorDetail> {
