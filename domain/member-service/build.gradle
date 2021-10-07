@@ -5,6 +5,7 @@ dependencies {
     testApi project(":domain-redis-member-cache").sourceSets.test.output
 
     implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation('com.auth0:java-jwt:3.16.0')
 }
 
 bootJar.enabled(false)
