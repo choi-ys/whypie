@@ -1,0 +1,33 @@
+spring:
+
+  # [JPA]
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+  # [Redis]
+  redis:
+    host: localhost
+    port: 6379
+
+  # [Mail]
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: project.log.062@gmail.com
+    password: cqlsjvvodubdbavo
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: true
+
+jwt:
+  signature: test-signature-key
+  issuer: me.whypie.authorization
+  subject: resource-access
+  audience: test-client
+  access-token-validity-in-seconds-term: 600 # access token의 유효 기간 : 10분
+  refresh-token-validity-in-seconds-term: 1200 # refresh token의 유효 기간 : 20분

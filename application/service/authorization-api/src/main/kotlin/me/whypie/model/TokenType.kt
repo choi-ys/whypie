@@ -1,4 +1,4 @@
-package me.whypie.model.vo
+package me.whypie.model
 
 /**
  * @author : choi-ys

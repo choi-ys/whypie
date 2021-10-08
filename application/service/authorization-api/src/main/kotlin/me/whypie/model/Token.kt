@@ -1,4 +1,4 @@
-package me.whypie.model.vo
+package me.whypie.model
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.util.*

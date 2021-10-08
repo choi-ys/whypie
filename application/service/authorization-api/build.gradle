@@ -1,0 +1,7 @@
+dependencies {
+    api project(":domain-member-service")
+    api project(":in-system-web-core-exception-handler")
+    testApi project(":in-system-web-core-exception-handler").sourceSets.test.output
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation('com.auth0:java-jwt:3.16.0')
+}
