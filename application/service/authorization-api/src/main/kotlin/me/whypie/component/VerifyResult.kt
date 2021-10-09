@@ -1,7 +1,7 @@
 package me.whypie.component
 
 import com.auth0.jwt.interfaces.Claim
-import me.whypie.model.ClaimKey
+import me.whypie.model.vo.ClaimKey
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import java.util.stream.Collectors
 

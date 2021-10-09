@@ -2,9 +2,9 @@ package me.whypie.component
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import me.whypie.model.ClaimKey
-import me.whypie.model.Token
-import me.whypie.model.TokenType
+import me.whypie.model.vo.ClaimKey
+import me.whypie.model.vo.Token
+import me.whypie.model.vo.TokenType
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.userdetails.UserDetails
