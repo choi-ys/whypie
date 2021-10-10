@@ -6,5 +6,11 @@ package me.whypie.model.vo
  */
 data class Principal(
     var identifier: String,
-    var authorities: String
-)
+    var authorities: String,
+) {
+    companion object {
+        fun <T> mapTo(identifier: String, set: Set<T>): Principal {
+            return Principal(identifier, set.joinToString(","))
+        }
+    }
+}
