@@ -23,7 +23,7 @@ import java.util.*
 @TestComponent
 class TokenGenerator(
     private val tokenProvider: TokenProvider,
-    private val authorizationService: AuthorizationService
+    private val authorizationService: AuthorizationService,
 ) {
     // TODO generate expired, invalid format, not matched signature token
     fun generateTokenMock(): Token {
@@ -45,7 +45,7 @@ class TokenGenerator(
         val ROLES = setOf(MemberRole.CERTIFIED_MEMBER)
 
         fun generatePrincipalMock(): Principal {
-            return Principal(USERNAME, ROLES.joinToString(","))
+            return Principal.mapTo(USERNAME, ROLES)
         }
 
         fun generateJwtMock(): String {

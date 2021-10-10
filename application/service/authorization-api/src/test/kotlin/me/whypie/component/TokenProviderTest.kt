@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 @DisplayName("Component:TokenProvider")
 internal class TokenProviderTest(
     private val tokenProvider: TokenProvider,
-    private val tokenVerifier: TokenVerifier
+    private val tokenVerifier: TokenVerifier,
 ) {
 
     @Test
@@ -33,7 +33,7 @@ internal class TokenProviderTest(
         // Given
         val username = "whypie"
         val roles = setOf(MemberRole.CERTIFIED_MEMBER)
-        val principalMock = Principal(identifier = username, authorities = roles.joinToString(","))
+        val principalMock = Principal.mapTo(username, roles)
 
         // When
         val createdToken = tokenProvider.createToken(principalMock)
