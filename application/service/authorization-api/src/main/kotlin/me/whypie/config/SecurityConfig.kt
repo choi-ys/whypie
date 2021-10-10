@@ -20,9 +20,11 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests {
-                it.antMatchers(HttpMethod.POST, "/auth/token", "/auth/refresh").permitAll()
-                it.antMatchers(HttpMethod.DELETE, "/auth/expire").permitAll()
-                it.anyRequest().authenticated()
+                it
+                    .antMatchers(HttpMethod.POST, "/member").permitAll()
+                    .antMatchers(HttpMethod.POST, "/auth/token", "/auth/refresh").permitAll()
+                    .antMatchers(HttpMethod.DELETE, "/auth/expire").permitAll()
+                    .anyRequest().authenticated()
             }
 
     }

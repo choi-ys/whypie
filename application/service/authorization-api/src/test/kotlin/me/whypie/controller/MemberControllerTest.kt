@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.config.EnableMockMvc
 import me.whypie.error.ErrorCode
 import me.whypie.model.dto.request.SignupRequest
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -11,16 +12,14 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.transaction.annotation.Transactional
-
 
 /**
  * @author : choi-ys
- * @date : 2021/10/05 11:47 오전
+ * @date : 2021-10-11 오전 5:33
  */
 @SpringBootTest
 @EnableMockMvc
@@ -50,19 +49,19 @@ internal class MemberControllerTest {
 
         // When
         val resultActions = mockMvc.perform(
-            post(MEMBER_URL)
+            MockMvcRequestBuilders.post(MEMBER_URL)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(signupRequest))
         )
 
         // Then
-        resultActions.andDo(print())
-            .andExpect(status().isOk)
-            .andExpect(jsonPath("id").exists())
-            .andExpect(jsonPath("email").value(signupRequest.email))
-            .andExpect(jsonPath("name").value(signupRequest.name))
-            .andExpect(jsonPath("nickname").value(signupRequest.nickname))
+        resultActions.andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("id").exists())
+            .andExpect(MockMvcResultMatchers.jsonPath("email").value(signupRequest.email))
+            .andExpect(MockMvcResultMatchers.jsonPath("name").value(signupRequest.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("nickname").value(signupRequest.nickname))
     }
 
     @Test
@@ -70,18 +69,18 @@ internal class MemberControllerTest {
     fun signup_Fail_CauseNoArgument() {
         // When
         val resultActions = mockMvc.perform(
-            post(MEMBER_URL)
+            MockMvcRequestBuilders.post(MEMBER_URL)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
         )
 
         // Then
-        resultActions.andDo(print())
-            .andExpect(status().isBadRequest)
-            .andExpect(jsonPath("method").exists())
-            .andExpect(jsonPath("path").exists())
-            .andExpect(jsonPath("code").value(ErrorCode.HTTP_MESSAGE_NOT_READABLE.name))
-            .andExpect(jsonPath("message").value(ErrorCode.HTTP_MESSAGE_NOT_READABLE.message))
+        resultActions.andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.jsonPath("method").exists())
+            .andExpect(MockMvcResultMatchers.jsonPath("path").exists())
+            .andExpect(MockMvcResultMatchers.jsonPath("code").value(ErrorCode.HTTP_MESSAGE_NOT_READABLE.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("message").value(ErrorCode.HTTP_MESSAGE_NOT_READABLE.message))
     }
 
     @Test
@@ -92,20 +91,20 @@ internal class MemberControllerTest {
 
         // When
         val resultActions = mockMvc.perform(
-            post(MEMBER_URL)
+            MockMvcRequestBuilders.post(MEMBER_URL)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .content(objectMapper.writeValueAsString(signupRequest))
         )
 
         // Then
-        resultActions.andDo(print())
-            .andExpect(status().isBadRequest)
-            .andExpect(jsonPath("timestamp").exists())
-            .andExpect(jsonPath("method").exists())
-            .andExpect(jsonPath("path").exists())
-            .andExpect(jsonPath("code").value(ErrorCode.METHOD_ARGUMENT_NOT_VALID.name))
-            .andExpect(jsonPath("message").value(ErrorCode.METHOD_ARGUMENT_NOT_VALID.message))
-            .andExpect(jsonPath("errorDetails").isNotEmpty)
+        resultActions.andDo(MockMvcResultHandlers.print())
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.jsonPath("timestamp").exists())
+            .andExpect(MockMvcResultMatchers.jsonPath("method").exists())
+            .andExpect(MockMvcResultMatchers.jsonPath("path").exists())
+            .andExpect(MockMvcResultMatchers.jsonPath("code").value(ErrorCode.METHOD_ARGUMENT_NOT_VALID.name))
+            .andExpect(MockMvcResultMatchers.jsonPath("message").value(ErrorCode.METHOD_ARGUMENT_NOT_VALID.message))
+            .andExpect(MockMvcResultMatchers.jsonPath("errorDetails").isNotEmpty)
     }
 }
