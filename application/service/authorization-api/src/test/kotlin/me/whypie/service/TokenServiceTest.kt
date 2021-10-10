@@ -46,21 +46,21 @@ internal class TokenServiceTest {
     @DisplayName("토큰 발급")
     fun issue() {
         // Given
-        val userMock = TokenGenerator.generateUserMock()
+        val principalMock = TokenGenerator.generatePrincipalMock()
         val tokenMock = TokenGenerator.generateTokenMock()
-        val whiteListTokenCache = WhiteListTokenCache(userMock.username, tokenMock)
+        val whiteListTokenCache = WhiteListTokenCache(principalMock.identifier, tokenMock)
 
-        given(tokenProvider.createToken(userMock))
+        given(tokenProvider.createToken(principalMock))
             .willReturn(tokenMock)
 
         given(whiteListTokenCacheRepo.save(whiteListTokenCache))
             .will(AdditionalAnswers.returnsFirstArg<WhiteListTokenCache>())
 
         // When
-        val expected = tokenService.issue(userMock)
+        val expected = tokenService.issue(principalMock)
 
         // Then
-        verify(tokenProvider, times(1)).createToken(userMock)
+        verify(tokenProvider, times(1)).createToken(principalMock)
         verify(whiteListTokenCacheRepo, times(1)).save(whiteListTokenCache)
 
         assertAll(
@@ -75,39 +75,39 @@ internal class TokenServiceTest {
     @DisplayName("토큰 갱신")
     fun refresh() {
         // Given
-        val userMock = TokenGenerator.generateUserMock()
+        val principalMock = TokenGenerator.generatePrincipalMock()
         val issuedTokenMock = TokenGenerator.generateTokenMock()
         val createdTokenMock = TokenGenerator.generateTokenMock()
 
         given(tokenVerifier.verify(issuedTokenMock.refreshToken))
             .willReturn(TokenGenerator.getVerifyResult(issuedTokenMock.refreshToken))
 
-        given(tokenProvider.createToken(userMock)).willReturn(createdTokenMock)
+        given(tokenProvider.createToken(principalMock)).willReturn(createdTokenMock)
 
-        given(whiteListTokenCacheRepo.findById(userMock.username))
-            .willReturn(Optional.of(WhiteListTokenCache(userMock.username, createdTokenMock)))
+        given(whiteListTokenCacheRepo.findById(principalMock.identifier))
+            .willReturn(Optional.of(WhiteListTokenCache(principalMock.identifier, createdTokenMock)))
 
         // When
         tokenService.refresh(issuedTokenMock.refreshToken)
 
         // Then
         verify(tokenVerifier, times(1)).verify(issuedTokenMock.refreshToken)
-        verify(tokenProvider, times(1)).createToken(userMock)
-        verify(whiteListTokenCacheRepo, times(1)).findById(userMock.username)
+        verify(tokenProvider, times(1)).createToken(principalMock)
+        verify(whiteListTokenCacheRepo, times(1)).findById(principalMock.identifier)
     }
 
     @Test
     @DisplayName("토큰 만료")
     fun expire() {
         // Given
-        val userMock = TokenGenerator.generateUserMock()
+        val principalMock = TokenGenerator.generatePrincipalMock()
         val issuedTokenMock = TokenGenerator.generateTokenMock()
 
         given(tokenVerifier.verify(issuedTokenMock.accessToken))
             .willReturn(TokenGenerator.getVerifyResult(issuedTokenMock.accessToken))
 
-        given(whiteListTokenCacheRepo.findById(userMock.username))
-            .willReturn(Optional.of(WhiteListTokenCache(userMock.username, issuedTokenMock)))
+        given(whiteListTokenCacheRepo.findById(principalMock.identifier))
+            .willReturn(Optional.of(WhiteListTokenCache(principalMock.identifier, issuedTokenMock)))
 
         // When
         tokenService.expire(issuedTokenMock.accessToken)

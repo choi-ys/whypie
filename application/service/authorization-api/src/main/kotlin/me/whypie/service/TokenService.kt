@@ -4,11 +4,10 @@ import me.whypie.component.TokenProvider
 import me.whypie.component.TokenVerifier
 import me.whypie.model.entity.BlackListTokenCache
 import me.whypie.model.entity.WhiteListTokenCache
+import me.whypie.model.vo.Principal
 import me.whypie.model.vo.Token
 import me.whypie.repository.BlackListTokenCacheRepo
 import me.whypie.repository.WhiteListTokenCacheRepo
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 
 /**
@@ -23,24 +22,25 @@ class TokenService(
     private val whiteListTokenCacheRepo: WhiteListTokenCacheRepo,
 ) {
 
-    fun issue(userDetails: UserDetails): Token {
-        val token = tokenProvider.createToken(userDetails)
-        addBlackList(userDetails.username)
-        whiteListTokenCacheRepo.save(WhiteListTokenCache(userDetails.username, token))
+    fun issue(principal: Principal): Token {
+        val token = tokenProvider.createToken(principal)
+        addBlackList(principal.identifier)
+        whiteListTokenCacheRepo.save(WhiteListTokenCache(principal.identifier, token))
         return token
     }
 
     fun refresh(refreshToken: String): Token {
         val verifyResult = tokenVerifier.verify(refreshToken)
-        addBlackList(verifyResult.username)
-        val token = tokenProvider.createToken(User(verifyResult.username, "", verifyResult.authorities))
-        whiteListTokenCacheRepo.save(WhiteListTokenCache(verifyResult.username, token))
+        val principal = verifyResult.principal
+        addBlackList(principal.identifier)
+        val token = tokenProvider.createToken(principal)
+        whiteListTokenCacheRepo.save(WhiteListTokenCache(principal.identifier, token))
         return token
     }
 
     fun expire(accessToken: String) {
-        val verifyResult = tokenVerifier.verify(accessToken)
-        addBlackList(verifyResult.username)
+        val principal = tokenVerifier.verify(accessToken).principal
+        addBlackList(principal.identifier)
     }
 
     private fun addBlackList(username: String) {

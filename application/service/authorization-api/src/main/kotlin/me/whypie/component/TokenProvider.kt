@@ -2,12 +2,14 @@ package me.whypie.component
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.model.vo.ClaimKey
+import me.whypie.model.vo.Principal
 import me.whypie.model.vo.Token
 import me.whypie.model.vo.TokenType
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -41,18 +43,18 @@ class TokenProvider : InitializingBean {
         ALGORITHM = Algorithm.HMAC256(SIGNATURE)
     }
 
-    fun createToken(userDetails: UserDetails): Token {
+    fun createToken(principal: Principal): Token {
         val currentTimeMillis = System.currentTimeMillis()
         val accessExpired = Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_IN_SECONDS_TERM!! * 1000)
         val refreshExpired = Date(System.currentTimeMillis() + REFRESH_TOKEN_VALIDITY_IN_SECONDS_TERM!! * 1000)
-        val accessToken: String = tokenBuilder(currentTimeMillis, TokenType.ACCESS, userDetails)
-        val refreshToken: String = tokenBuilder(currentTimeMillis, TokenType.REFRESH, userDetails)
+        val accessToken: String = tokenBuilder(currentTimeMillis, TokenType.ACCESS, principal)
+        val refreshToken: String = tokenBuilder(currentTimeMillis, TokenType.REFRESH, principal)
         return Token(accessToken, refreshToken, accessExpired, refreshExpired)
     }
 
-    private fun tokenBuilder(currentTimeMillis: Long, tokenType: TokenType, userDetails: UserDetails): String {
+    private fun tokenBuilder(currentTimeMillis: Long, tokenType: TokenType, principal: Principal): String {
         val tokenValidityInSecondsTerm =
-            if (tokenType.equals(TokenType.ACCESS)) ACCESS_TOKEN_VALIDITY_IN_SECONDS_TERM!! else REFRESH_TOKEN_VALIDITY_IN_SECONDS_TERM!!
+            if (tokenType == TokenType.ACCESS) ACCESS_TOKEN_VALIDITY_IN_SECONDS_TERM!! else REFRESH_TOKEN_VALIDITY_IN_SECONDS_TERM!!
         return JWT.create()
             .withIssuer(ISSUER)
             .withSubject(SUBJECT)
@@ -60,8 +62,9 @@ class TokenProvider : InitializingBean {
             .withIssuedAt(Date(currentTimeMillis))
             .withExpiresAt(Date(currentTimeMillis + tokenValidityInSecondsTerm * 1000))
             .withClaim(ClaimKey.USE.value, TokenType.ACCESS.name)
-            .withClaim(ClaimKey.USERNAME.value, userDetails.username)
-            .withClaim(ClaimKey.AUTHORITIES.value, userDetails.authorities.joinToString(","))
+            .withClaim(ClaimKey.PRINCIPAL.value, ObjectMapper().convertValue(principal, object :
+                TypeReference<Map<String, Any>>() {}))
             .sign(ALGORITHM)
     }
+
 }

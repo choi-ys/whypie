@@ -1,21 +1,18 @@
 package me.whypie.component
 
 import me.whypie.model.entity.MemberRole
+import me.whypie.model.vo.Principal
 import me.whypie.utils.LocalDateTimeUtils
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.User
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestConstructor
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.stream.Collectors
 
 /**
  * @author : choi-ys
@@ -36,15 +33,10 @@ internal class TokenProviderTest(
         // Given
         val username = "whypie"
         val roles = setOf(MemberRole.CERTIFIED_MEMBER)
-        val user =
-            User(
-                username,
-                "",
-                roles.stream().map { it -> SimpleGrantedAuthority("ROlE_" + it.name) }.collect(Collectors.toSet())
-            )
+        val principalMock = Principal(identifier = username, authorities = roles.joinToString(","))
 
         // When
-        val createdToken = tokenProvider.createToken(user)
+        val createdToken = tokenProvider.createToken(principalMock)
 
         // Then
         val accessTokenVerifyResult = tokenVerifier.verify(createdToken.accessToken)
@@ -55,19 +47,19 @@ internal class TokenProviderTest(
         val ofPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
         assertAll(
-            { assertEquals(accessTokenVerifyResult.username, user.username) },
-            { assertEquals(refreshTokenVerifyResult.username, accessTokenVerifyResult.username) },
-            { assertTrue(accessTokenVerifyResult.authorities!!.containsAll(user.authorities)) },
-            { assertTrue(refreshTokenVerifyResult.authorities!!.containsAll(user.authorities)) },
+            { assertEquals(accessTokenVerifyResult.principal.identifier, username) },
+            { assertEquals(refreshTokenVerifyResult.principal.identifier, username) },
+            { assertTrue(accessTokenVerifyResult.principal.authorities == roles.joinToString(",")) },
+            { assertTrue(refreshTokenVerifyResult.principal.authorities == roles.joinToString(",")) },
             {
-                Assertions.assertEquals(
+                assertEquals(
                     LocalDateTime.now().plusMinutes(10).format(ofPattern),
                     accessExpiredLocalDateTime.format(ofPattern),
                     "발급된 접근 토큰의 유효기간이 10분인지 확인"
                 )
             },
             {
-                Assertions.assertEquals(
+                assertEquals(
                     LocalDateTime.now().plusMinutes(20).format(ofPattern),
                     refreshExpiredLocalDateTime.format(ofPattern),
                     "발급된 갱신 토큰의 유효기간이 20분인지 확인"
@@ -75,5 +67,4 @@ internal class TokenProviderTest(
             }
         )
     }
-
 }

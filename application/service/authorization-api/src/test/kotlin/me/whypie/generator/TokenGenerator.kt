@@ -3,17 +3,17 @@ package me.whypie.generator
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.interfaces.Claim
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.component.TokenProvider
 import me.whypie.component.VerifyResult
 import me.whypie.model.entity.MemberRole
 import me.whypie.model.vo.ClaimKey
+import me.whypie.model.vo.Principal
 import me.whypie.model.vo.Token
 import me.whypie.model.vo.TokenType
 import org.springframework.boot.test.context.TestComponent
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.User
 import java.util.*
-import java.util.stream.Collectors
 
 /**
  * @author : choi-ys
@@ -24,11 +24,11 @@ class TokenGenerator(
     private val tokenProvider: TokenProvider
 ) {
     fun generateTokenMock(): Token {
-        return tokenProvider.createToken(generateUserMock())
+        return tokenProvider.createToken(generatePrincipalMock())
     }
 
-    fun generateTokenMock(user: User): Token {
-        return tokenProvider.createToken(user)
+    fun generateTokenMock(principal: Principal): Token {
+        return tokenProvider.createToken(principal)
     }
 
     companion object {
@@ -37,16 +37,13 @@ class TokenGenerator(
         val USERNAME = "whypie"
         val ROLES = setOf(MemberRole.CERTIFIED_MEMBER)
 
-        fun generateUserMock(): User {
-            return User(
-                USERNAME,
-                "",
-                ROLES.stream().map { it -> SimpleGrantedAuthority("ROlE_" + it.name) }.collect(Collectors.toSet())
-            )
+        fun generatePrincipalMock(): Principal {
+            return Principal(USERNAME, ROLES.joinToString(","))
         }
 
         fun generateJwtMock(): String {
             val currentTimeMillis = System.currentTimeMillis()
+            val principal = Principal(USERNAME, ROLES.joinToString(","))
 
             return JWT.create()
                 .withIssuer("ISSUER")
@@ -55,8 +52,8 @@ class TokenGenerator(
                 .withIssuedAt(Date(currentTimeMillis))
                 .withExpiresAt(Date(currentTimeMillis + ACCESS_TOKEN_VALIDITY_IN_SECONDS_TERM * 1000))
                 .withClaim(ClaimKey.USE.value, TokenType.ACCESS.name)
-                .withClaim(ClaimKey.USERNAME.value, USERNAME)
-                .withClaim(ClaimKey.AUTHORITIES.value, ROLES.joinToString(","))
+                .withClaim(ClaimKey.PRINCIPAL.value, ObjectMapper().convertValue(principal, object :
+                    TypeReference<Map<String, Any>>() {}))
                 .sign(Algorithm.HMAC256(SIGNATURE))
         }
 
@@ -68,7 +65,7 @@ class TokenGenerator(
             return VerifyResult.mapTo(getClaims(token));
         }
 
-        fun getClaims(token: String): Map<String, Claim> {
+        private fun getClaims(token: String): Map<String, Claim> {
             return JWT.require(Algorithm.HMAC256(SIGNATURE)).build().verify(token).claims
         }
     }

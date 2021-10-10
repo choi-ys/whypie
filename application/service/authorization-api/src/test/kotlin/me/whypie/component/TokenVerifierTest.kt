@@ -33,8 +33,8 @@ internal class TokenVerifierTest(
     @DisplayName("Token 검증")
     fun verify() {
         // Given
-        val user = TokenGenerator.generateUserMock();
-        val tokenMock = tokenGenerator.generateTokenMock(user)
+        val principalMock = TokenGenerator.generatePrincipalMock();
+        val tokenMock = tokenGenerator.generateTokenMock(principalMock)
 
         // When
         val accessTokenVerifyResult = tokenVerifier.verify(tokenMock.accessToken)
@@ -46,10 +46,10 @@ internal class TokenVerifierTest(
         val ofPattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
         assertAll(
-            { assertEquals(accessTokenVerifyResult.username, user.username) },
-            { assertEquals(refreshTokenVerifyResult.username, accessTokenVerifyResult.username) },
-            { assertTrue(accessTokenVerifyResult.authorities!!.containsAll(user.authorities)) },
-            { assertTrue(refreshTokenVerifyResult.authorities!!.containsAll(user.authorities)) },
+            { assertEquals(accessTokenVerifyResult.principal.identifier, principalMock.identifier) },
+            { assertEquals(refreshTokenVerifyResult.principal.identifier, principalMock.identifier) },
+            { assertTrue(accessTokenVerifyResult.principal.authorities == principalMock.authorities) },
+            { assertTrue(refreshTokenVerifyResult.principal.authorities == principalMock.authorities) },
             {
                 Assertions.assertEquals(
                     LocalDateTime.now().plusMinutes(10).format(ofPattern),

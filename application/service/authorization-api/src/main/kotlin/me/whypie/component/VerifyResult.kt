@@ -1,9 +1,10 @@
 package me.whypie.component
 
 import com.auth0.jwt.interfaces.Claim
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import me.whypie.model.vo.ClaimKey
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import java.util.stream.Collectors
+import me.whypie.model.vo.Principal
 
 data class VerifyResult(
     val issuer: String,
@@ -12,8 +13,7 @@ data class VerifyResult(
     val issuedAt: Long,
     val expiresAt: Long,
     val use: String,
-    val username: String,
-    val authorities: Set<SimpleGrantedAuthority>? = hashSetOf()
+    val principal: Principal
 ) {
     companion object {
         fun mapTo(claims: Map<String, Claim>): VerifyResult {
@@ -24,12 +24,9 @@ data class VerifyResult(
                 issuedAt = claims[ClaimKey.IAT.value]!!.asLong(),
                 expiresAt = claims[ClaimKey.EXP.value]!!.asLong(),
                 use = claims[ClaimKey.USE.value]!!.asString(),
-                username = claims[ClaimKey.USERNAME.value]!!.asString(),
-                authorities = claims[ClaimKey.AUTHORITIES.value]?.let { it ->
-                    it.asString().split(",")
-                        .stream().map { SimpleGrantedAuthority(it) }
-                        .collect(Collectors.toSet())
-                }
+                principal = jacksonObjectMapper().convertValue(
+                    claims[ClaimKey.PRINCIPAL.value]!!.asMap(),
+                    object : TypeReference<Principal>() {}),
             )
         }
     }
