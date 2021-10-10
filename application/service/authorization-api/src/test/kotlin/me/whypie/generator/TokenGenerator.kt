@@ -12,6 +12,7 @@ import me.whypie.model.vo.ClaimKey
 import me.whypie.model.vo.Principal
 import me.whypie.model.vo.Token
 import me.whypie.model.vo.TokenType
+import me.whypie.service.AuthorizationService
 import org.springframework.boot.test.context.TestComponent
 import java.util.*
 
@@ -21,10 +22,16 @@ import java.util.*
  */
 @TestComponent
 class TokenGenerator(
-    private val tokenProvider: TokenProvider
+    private val tokenProvider: TokenProvider,
+    private val authorizationService: AuthorizationService
 ) {
+    // TODO generate expired, invalid format, not matched signature token
     fun generateTokenMock(): Token {
         return tokenProvider.createToken(generatePrincipalMock())
+    }
+
+    fun issuedToken(): Token {
+        return authorizationService.issue(generatePrincipalMock())
     }
 
     fun generateTokenMock(principal: Principal): Token {

@@ -25,7 +25,7 @@ import java.util.*
  */
 @ExtendWith(MockitoExtension::class)
 @DisplayName("Service:Token")
-internal class TokenServiceTest {
+internal class AuthorizationServiceTest {
 
     @Mock
     lateinit var tokenProvider: TokenProvider
@@ -40,7 +40,7 @@ internal class TokenServiceTest {
     lateinit var whiteListTokenCacheRepo: WhiteListTokenCacheRepo
 
     @InjectMocks
-    lateinit var tokenService: TokenService
+    lateinit var authorizationService: AuthorizationService
 
     @Test
     @DisplayName("토큰 발급")
@@ -57,7 +57,7 @@ internal class TokenServiceTest {
             .will(AdditionalAnswers.returnsFirstArg<WhiteListTokenCache>())
 
         // When
-        val expected = tokenService.issue(principalMock)
+        val expected = authorizationService.issue(principalMock)
 
         // Then
         verify(tokenProvider, times(1)).createToken(principalMock)
@@ -88,7 +88,7 @@ internal class TokenServiceTest {
             .willReturn(Optional.of(WhiteListTokenCache(principalMock.identifier, createdTokenMock)))
 
         // When
-        tokenService.refresh(issuedTokenMock.refreshToken)
+        authorizationService.refresh(issuedTokenMock.refreshToken)
 
         // Then
         verify(tokenVerifier, times(1)).verify(issuedTokenMock.refreshToken)
@@ -110,7 +110,7 @@ internal class TokenServiceTest {
             .willReturn(Optional.of(WhiteListTokenCache(principalMock.identifier, issuedTokenMock)))
 
         // When
-        tokenService.expire(issuedTokenMock.accessToken)
+        authorizationService.expire(issuedTokenMock.accessToken)
 
         // Then
         verify(tokenVerifier, times(1)).verify(issuedTokenMock.accessToken)
