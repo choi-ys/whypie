@@ -27,20 +27,6 @@ class TokenVerifier : InitializingBean {
         ALGORITHM = Algorithm.HMAC256(SIGNATURE)
     }
 
-    fun resolve(httpServletRequest: HttpServletRequest): String {
-        val bearerToken = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)
-        return if (!StringUtils.hasText(bearerToken)) {
-            ""
-        } else {
-            val isBearerToken = bearerToken.startsWith("Bearer ")
-            if (isBearerToken) {
-                bearerToken.substring(7, bearerToken.length)
-            } else {
-                ""
-            }
-        }
-    }
-
     fun verify(token: String?): VerifyResult {
         return try {
             val verify = JWT.require(ALGORITHM).build().verify(token)
@@ -54,6 +40,22 @@ class TokenVerifier : InitializingBean {
             throw JWTDecodeException("잘못된 형식의 토큰입니다.")
         } catch (e: SignatureVerificationException) { // 잘못된 서명을 가진 토큰
             throw SignatureVerificationException(ALGORITHM, e.cause)
+        }
+    }
+
+    companion object {
+        fun resolve(httpServletRequest: HttpServletRequest): String {
+            val bearerToken = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION)
+            return if (!StringUtils.hasText(bearerToken)) {
+                ""
+            } else {
+                val isBearerToken = bearerToken.startsWith("Bearer ")
+                if (isBearerToken) {
+                    bearerToken.substring(7, bearerToken.length)
+                } else {
+                    ""
+                }
+            }
         }
     }
 }
