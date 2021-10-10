@@ -93,7 +93,7 @@ internal class AuthorizationServiceTest {
         // Then
         verify(tokenVerifier, times(1)).verify(issuedTokenMock.refreshToken)
         verify(tokenProvider, times(1)).createToken(principalMock)
-        verify(whiteListTokenCacheRepo, times(1)).findById(principalMock.identifier)
+        verify(whiteListTokenCacheRepo, times(2)).findById(principalMock.identifier)
     }
 
     @Test
