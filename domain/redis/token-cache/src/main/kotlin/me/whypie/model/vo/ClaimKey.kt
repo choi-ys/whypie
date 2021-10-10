@@ -11,6 +11,5 @@ enum class ClaimKey(val value: String) {
     IAT("iat"),
     EXP("exp"),
     USE("use"),
-    USERNAME("username"),
-    AUTHORITIES("authorities");
+    PRINCIPAL("principal");
 }
