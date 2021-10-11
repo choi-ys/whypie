@@ -9,12 +9,10 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestConstructor
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.stream.Collectors
 
 /**
  * @author : choi-ys
@@ -35,11 +33,7 @@ internal class TokenProviderTest(
         // Given
         val username = "whypie"
         val roles = setOf(MemberRole.CERTIFIED_MEMBER)
-        val simpleGrantedAuthority = roles.stream()
-            .map { SimpleGrantedAuthority("ROLE_" + it) }
-            .collect(Collectors.toSet())
-
-        val principalMock = Principal(username, simpleGrantedAuthority)
+        val principalMock = Principal.mapTo(username, roles)
 
         // When
         val createdToken = tokenProvider.createToken(principalMock)
@@ -55,8 +49,8 @@ internal class TokenProviderTest(
         assertAll(
             { assertEquals(accessTokenVerifyResult.principal.identifier, username) },
             { assertEquals(refreshTokenVerifyResult.principal.identifier, username) },
-            { assertTrue(accessTokenVerifyResult.principal.authorities == simpleGrantedAuthority) },
-            { assertTrue(refreshTokenVerifyResult.principal.authorities == simpleGrantedAuthority) },
+            { assertTrue(accessTokenVerifyResult.principal.authorities == roles.joinToString(",")) },
+            { assertTrue(refreshTokenVerifyResult.principal.authorities == roles.joinToString(",")) },
             {
                 assertEquals(
                     LocalDateTime.now().plusMinutes(10).format(ofPattern),
