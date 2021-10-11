@@ -55,7 +55,7 @@ internal class LoginServiceTest {
         val loginRequest = LoginRequest(email, password)
 
         // When
-        val login = loginService.login(loginRequest)
+        loginService.login(loginRequest)
 
         // Then
         verify(memberRepo, times(1)).findByEmail(anyString())
