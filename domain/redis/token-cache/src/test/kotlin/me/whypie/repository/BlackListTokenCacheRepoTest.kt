@@ -66,7 +66,7 @@ internal class BlackListTokenCacheRepoTest(
         val invalidId = "invalidId"
 
         // When
-        val expected = assertThrows(NoSuchElementException::class.java) {
+        assertThrows(NoSuchElementException::class.java) {
             blackListTokenCacheRepo.findById(invalidId).orElseThrow()
         }.let {
             assertTrue(it is RuntimeException)

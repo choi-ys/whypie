@@ -66,7 +66,7 @@ internal class WhiteListTokenCacheRepoTest(
         val invalidId = "invalidId"
 
         // When
-        val expected = assertThrows(NoSuchElementException::class.java) {
+        assertThrows(NoSuchElementException::class.java) {
             whiteListTokenCacheRepo.findById(invalidId).orElseThrow()
         }.let {
             assertTrue(it is RuntimeException)
