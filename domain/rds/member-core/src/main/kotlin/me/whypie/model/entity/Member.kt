@@ -1,6 +1,8 @@
 package me.whypie.model.entity
 
 import me.whypie.model.entity.base.Auditor
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import java.util.stream.Collectors
 import javax.persistence.*
 
 /**
@@ -46,14 +48,14 @@ data class Member(
     @Enumerated(EnumType.STRING)
     var roles: MutableSet<MemberRole> = mutableSetOf(MemberRole.UNCERTIFIED_MEMBER),
 
-) : Auditor() {
+    ) : Auditor() {
 
     fun completeCertification() {
         roles = mutableSetOf(MemberRole.CERTIFIED_MEMBER)
     }
 
     fun addRoles(additionRoles: Set<MemberRole>) {
-        if(roles == additionRoles){
+        if (roles == additionRoles) {
             throw IllegalArgumentException("이미 존재하는 권한 입니다.")
         }
         roles.addAll(additionRoles)
@@ -64,5 +66,12 @@ data class Member(
             throw IllegalArgumentException("최소 하나 이상의 권한이 존재해야 합니다.")
         }
         roles.removeAll(removalRoles)
+    }
+
+    fun mapToSimpleGrantedAuthority(): Set<SimpleGrantedAuthority> {
+        val rolePrefix = "ROLE_"
+        return roles.stream()
+            .map { SimpleGrantedAuthority(rolePrefix+ it.name) }
+            .collect(Collectors.toSet())
     }
 }
