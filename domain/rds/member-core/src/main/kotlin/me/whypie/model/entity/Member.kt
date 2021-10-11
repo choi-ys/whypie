@@ -53,6 +53,9 @@ data class Member(
     }
 
     fun addRoles(additionRoles: Set<MemberRole>) {
+        if(roles == additionRoles){
+            throw IllegalArgumentException("이미 존재하는 권한 입니다.")
+        }
         roles.addAll(additionRoles)
     }
 
@@ -62,5 +65,4 @@ data class Member(
         }
         roles.removeAll(removalRoles)
     }
-
 }
