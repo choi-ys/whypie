@@ -21,7 +21,7 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
             .and()
             .authorizeRequests {
                 it
-                    .antMatchers(HttpMethod.POST, "/member").permitAll()
+                    .antMatchers(HttpMethod.POST, "/member", "/login").permitAll()
                     .antMatchers(HttpMethod.POST, "/auth/token", "/auth/refresh").permitAll()
                     .antMatchers(HttpMethod.DELETE, "/auth/expire").permitAll()
                     .anyRequest().authenticated()
