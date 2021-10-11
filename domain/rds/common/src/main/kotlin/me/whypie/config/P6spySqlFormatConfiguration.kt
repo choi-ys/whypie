@@ -21,27 +21,26 @@ class P6spySqlFormatConfiguration : MessageFormattingStrategy {
         sql: String,
         url: String
     ): String {
-        var sql: String? = sql
-        sql = formatSql(category, sql)
+        var formattedQuery: String? = formatSql(category, sql)
         return "\n -> [Meta info] : " +
                 LocalDateTime.ofInstant(Instant.ofEpochMilli(now.toLong()), TimeZone.getDefault().toZoneId()) +
-                " | duration " + elapsed + "ms | connection " + connectionId + sql
+                " | duration " + elapsed + "ms | connection " + connectionId + formattedQuery
     }
 
     private fun formatSql(category: String, sql: String?): String? {
-        var sql = sql
         if (sql == null || sql.trim { it <= ' ' } == "") return sql
+        var formattedQuery = sql
 
         // Only format Statement, distinguish DDL And DML
         if (Category.STATEMENT.name == category) {
-            val tmpsql = sql.trim { it <= ' ' }.lowercase(Locale.ROOT)
-            sql = if (tmpsql.startsWith("create") || tmpsql.startsWith("alter") || tmpsql.startsWith("comment")) {
-                FormatStyle.DDL.formatter.format(sql)
+            val tmpsql = formattedQuery.trim { it <= ' ' }.lowercase(Locale.ROOT)
+            formattedQuery = if (tmpsql.startsWith("create") || tmpsql.startsWith("alter") || tmpsql.startsWith("comment")) {
+                FormatStyle.DDL.formatter.format(formattedQuery)
             } else {
-                FormatStyle.BASIC.formatter.format(sql)
+                FormatStyle.BASIC.formatter.format(formattedQuery)
             }
-            sql = "\n -> [Hibernate format]: $sql"
+            formattedQuery = "\n -> [Hibernate format]: $formattedQuery"
         }
-        return sql
+        return formattedQuery
     }
 }
