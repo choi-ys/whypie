@@ -7,7 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.component.TokenProvider
 import me.whypie.component.VerifyResult
-import me.whypie.model.entity.MemberRole
 import me.whypie.model.vo.ClaimKey
 import me.whypie.model.vo.Principal
 import me.whypie.model.vo.Token
@@ -41,16 +40,15 @@ class TokenGenerator(
     companion object {
         val SIGNATURE = "test-case-signature"
         val ACCESS_TOKEN_VALIDITY_IN_SECONDS_TERM = 600L
-        val USERNAME = "whypie"
-        val ROLES = setOf(MemberRole.CERTIFIED_MEMBER)
+        val member = MemberGenerator.member()
 
         fun generatePrincipalMock(): Principal {
-            return Principal.mapTo(USERNAME, ROLES)
+            return Principal(member.email, member.mapToSimpleGrantedAuthority())
         }
 
         fun generateJwtMock(): String {
             val currentTimeMillis = System.currentTimeMillis()
-            val principal = Principal(USERNAME, ROLES.joinToString(","))
+            val principal = Principal(member.email, member.mapToSimpleGrantedAuthority())
 
             return JWT.create()
                 .withIssuer("ISSUER")

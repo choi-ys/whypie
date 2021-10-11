@@ -49,7 +49,7 @@ internal class LoginServiceTest {
 
         given(passwordEncoder.matches(anyString(), anyString())).willReturn(true)
 
-        given(authorizationService.issue(Principal.mapTo(member.email, member.roles)))
+        given(authorizationService.issue(Principal(member.email, member.mapToSimpleGrantedAuthority())))
             .willReturn(TokenGenerator.generateTokenMock())
 
         val loginRequest = LoginRequest(email, password)
@@ -60,6 +60,6 @@ internal class LoginServiceTest {
         // Then
         verify(memberRepo, times(1)).findByEmail(anyString())
         verify(passwordEncoder, times(1)).matches(anyString(), anyString())
-        verify(authorizationService, times(1)).issue(Principal.mapTo(member.email, member.roles))
+        verify(authorizationService, times(1)).issue(Principal(member.email, member.mapToSimpleGrantedAuthority()))
     }
 }

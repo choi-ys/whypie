@@ -26,7 +26,7 @@ class LoginService(
                 throw IllegalArgumentException("")
             }
         }
-        val token = authorizationService.issue(Principal.mapTo(member.email, member.roles))
+        val token = authorizationService.issue(Principal(member.email, member.mapToSimpleGrantedAuthority()))
         return LoginResponse.mapTo(member, token)
     }
 
