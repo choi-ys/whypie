@@ -2,6 +2,7 @@ package me.whypie.repository
 
 import me.whypie.model.entity.Member
 import org.springframework.data.jpa.repository.JpaRepository
+import java.util.*
 
 /**
  * @author : choi-ys
@@ -9,4 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository
  */
 interface MemberRepo : JpaRepository<Member, Long> {
     fun existsByEmail(email: String): Boolean
+    fun findByEmail(email: String): Optional<Member>
 }
