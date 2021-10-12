@@ -6,7 +6,7 @@ import com.auth0.jwt.interfaces.Claim
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.component.TokenProvider
-import me.whypie.component.VerifyResult
+import me.whypie.model.VerifyResult
 import me.whypie.model.entity.MemberRole
 import me.whypie.model.vo.ClaimKey
 import me.whypie.model.vo.Principal
@@ -69,7 +69,7 @@ class TokenGenerator(
         }
 
         fun getVerifyResult(token: String): VerifyResult {
-            return VerifyResult.mapTo(getClaims(token));
+            return VerifyResult.mapTo(getClaims(token))
         }
 
         private fun getClaims(token: String): Map<String, Claim> {
