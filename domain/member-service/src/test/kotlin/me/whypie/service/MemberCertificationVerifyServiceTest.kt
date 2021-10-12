@@ -20,6 +20,7 @@ import java.util.*
  * @date : 2021-10-04 오전 7:15
  */
 @ExtendWith(MockitoExtension::class)
+@DisplayName("Service:MailCertify")
 internal class MemberCertificationVerifyServiceTest {
 
     @Mock

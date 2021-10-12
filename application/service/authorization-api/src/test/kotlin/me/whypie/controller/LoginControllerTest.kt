@@ -81,7 +81,7 @@ internal class LoginControllerTest {
     }
 
     @Test
-    @DisplayName("로그아웃")
+    @DisplayName("[206:POST]로그아웃")
     fun logout() {
         // Given
         val email = "project.log.062@gmail.com"

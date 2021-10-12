@@ -1,6 +1,10 @@
 dependencies {
-    api project(":domain-member-service")
+    api project(":domain-rds-entity-core")
+    testApi project(":domain-rds-entity-core")
     api project(":in-system-web-core-exception-handler")
     testApi project(":in-system-web-core-exception-handler").sourceSets.test.output
+
+    api project(":in-system-web-core-authorization-filter")
+
     implementation("org.springframework.boot:spring-boot-starter-web")
 }
