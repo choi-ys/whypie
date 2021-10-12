@@ -23,11 +23,11 @@ Project - [WhyPie]
 │  ├─ monitoring                         서비스 모니터링 어플리케이션 관련 모듈 계층
 │  │  └─ eureka
 │  │  └─ spring-boot-admin
-│  ├─ service                            서비스 API 어플리케이션 모듈 계층
-│  │  └─ authorization-api
-│  │  └─ gateway-api
-│  │  └─ member-api
-│  │  └─ whypie-api
+│  └─ service                            서비스 API 어플리케이션 모듈 계층
+│     └─ authorization-api
+│     └─ gateway-api
+│     └─ member-api
+│     └─ whypie-api
 ├─ domain                            서비스 도메인 관련 비즈니스 로직을 다루는 중심 모듈 계층
 │  ├─ member-service                     RDB 모듈과 Redis 모듈의 결합 트랜잭션을 다루는 모듈 계층
 │  ├─ rds                                RDB 의존적인 Entity의 비즈니스 로직을 다루는 모듈 계층
