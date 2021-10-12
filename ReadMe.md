@@ -45,3 +45,11 @@ Project - [WhyPie]
       └─ authorization-filter
       └─ exception-handler
 ```
+
+## TODO
+
+> spring cloud config + private VCS를 이용한 설정 중앙화
+> 
+> sleuth + zipkin을 이용한 log transaction 처리
+> 
+> eureka & spring boot admin을 이용한 client discovery 적용
