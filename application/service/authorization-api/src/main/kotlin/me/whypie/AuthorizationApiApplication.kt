@@ -1,7 +1,7 @@
 package me.whypie
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
+import org.springframework.boot.builder.SpringApplicationBuilder
 
 /**
  * @author : choi-ys
@@ -11,5 +11,13 @@ import org.springframework.boot.runApplication
 class AuthorizationApiApplication
 
 fun main(args: Array<String>) {
-    runApplication<AuthorizationApiApplication>(*args)
+    val profiles = System.getProperty("spring.profiles.active")
+    SpringApplicationBuilder(AuthorizationApiApplication::class.java)
+        .properties(
+            "spring.config.location=" +
+                    "classpath:application-${profiles}.yml," +
+                    "classpath:jwt-${profiles}.yml," +
+                    "classpath:rds-${profiles}.yml," +
+                    "classpath:redis-${profiles}.yml"
+        ).run(*args)
 }
