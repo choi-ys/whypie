@@ -30,7 +30,7 @@ class LoginService(
         return LoginResponse.mapTo(member, token)
     }
 
-    fun logout() {
-//        authorizationService.expire()
+    fun logout(accessToken: String) {
+        authorizationService.expire(accessToken)
     }
 }

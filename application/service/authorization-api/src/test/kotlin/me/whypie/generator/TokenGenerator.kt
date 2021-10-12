@@ -68,6 +68,10 @@ class TokenGenerator(
             return Token(generateJwtMock(), generateJwtMock(), Date(), Date())
         }
 
+        fun getBearerToken(accessToken: String): String {
+            return "Bearer $accessToken"
+        }
+
         fun getVerifyResult(token: String): VerifyResult {
             return VerifyResult.mapTo(getClaims(token))
         }
