@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTDecodeException
 import com.auth0.jwt.exceptions.SignatureVerificationException
 import com.auth0.jwt.exceptions.TokenExpiredException
+import me.whypie.model.LoginUserAdapter
 import me.whypie.model.VerifyResult
 import me.whypie.utils.LocalDateTimeUtils
 import org.springframework.beans.factory.InitializingBean
@@ -49,7 +50,8 @@ class TokenVerifier : InitializingBean {
     fun getAuthentication(token: String): Authentication {
         val verifyResult = verify(token)
         val principal = verifyResult.principal.convert()
-        return UsernamePasswordAuthenticationToken(principal.username, null, principal.authorities)
+        val loginUserAdapter = LoginUserAdapter(principal.username, principal.authorities)
+        return UsernamePasswordAuthenticationToken(loginUserAdapter, null, loginUserAdapter.authorities)
     }
 
     companion object {
