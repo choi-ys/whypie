@@ -10,9 +10,9 @@ import me.whypie.repository.BlackListTokenCacheRepo
 import me.whypie.repository.WhiteListTokenCacheRepo
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
 
-private val logger = KotlinLogging.logger {  }
+private val logger = KotlinLogging.logger { }
+
 /**
  * @author : choi-ys
  * @date : 2021-10-08 오전 7:04

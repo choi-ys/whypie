@@ -3,6 +3,8 @@ dependencies {
     api project(":in-system-web-core-exception-handler")
     testApi project(":in-system-web-core-exception-handler").sourceSets.test.output
 
+    api project(":in-system-web-core-authorization-filter")
+
     api project(":domain-redis-token-cache")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
