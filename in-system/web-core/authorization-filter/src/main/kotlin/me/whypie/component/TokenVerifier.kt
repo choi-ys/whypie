@@ -5,10 +5,13 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.auth0.jwt.exceptions.JWTDecodeException
 import com.auth0.jwt.exceptions.SignatureVerificationException
 import com.auth0.jwt.exceptions.TokenExpiredException
+import me.whypie.model.VerifyResult
 import me.whypie.utils.LocalDateTimeUtils
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpHeaders
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
 import javax.servlet.http.HttpServletRequest
@@ -41,6 +44,12 @@ class TokenVerifier : InitializingBean {
         } catch (e: SignatureVerificationException) { // 잘못된 서명을 가진 토큰
             throw SignatureVerificationException(ALGORITHM, e.cause)
         }
+    }
+
+    fun getAuthentication(token: String): Authentication {
+        val verifyResult = verify(token)
+        val principal = verifyResult.principal.convert()
+        return UsernamePasswordAuthenticationToken(principal.username, null, principal.authorities)
     }
 
     companion object {

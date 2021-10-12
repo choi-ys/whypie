@@ -1,4 +1,4 @@
-package me.whypie.component
+package me.whypie.model
 
 import com.auth0.jwt.interfaces.Claim
 import com.fasterxml.jackson.core.type.TypeReference
