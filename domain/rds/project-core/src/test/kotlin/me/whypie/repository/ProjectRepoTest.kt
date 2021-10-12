@@ -14,7 +14,7 @@ import org.springframework.test.context.TestConstructor
  * @author : choi-ys
  * @date : 2021/10/12 2:31 오후
  */
-@DisplayName("Rds:Repo:Project")
+@DisplayName("RDS:Repo:Project")
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class ProjectRepoTest(
     private val projectRepo: ProjectRepo,

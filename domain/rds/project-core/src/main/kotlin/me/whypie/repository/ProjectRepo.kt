@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository
  * @date : 2021/10/12 2:18 오후
  */
 interface ProjectRepo : JpaRepository<Project, Long> {
+    fun existsByName(name: String): Boolean
 }
