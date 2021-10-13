@@ -1,8 +1,6 @@
 dependencies {
     api project(":domain-rds-common")
     testApi project(":domain-rds-common").sourceSets.test.output
-
-    api project(":domain-authentication-login-user")
 }
 
 bootJar.enabled(false)
