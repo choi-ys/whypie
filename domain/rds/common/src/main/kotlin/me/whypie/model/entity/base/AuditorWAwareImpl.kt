@@ -1,5 +1,6 @@
 package me.whypie.model.entity.base
 
+import me.whypie.model.LoginUserAdapter
 import org.springframework.data.domain.AuditorAware
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.Authentication
@@ -16,7 +17,7 @@ class AuditorWAwareImpl : AuditorAware<String> {
         val authentication = SecurityContextHolder.getContext().authentication
         return when {
             invalidAuditor(authentication) -> Optional.empty()
-            else -> Optional.of(authentication.principal as String)
+            else -> Optional.of((authentication.principal as LoginUserAdapter).username)
         }
     }
 
