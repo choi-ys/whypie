@@ -90,4 +90,10 @@ internal class ProjectServiceTest {
         verify(memberRepo, times(1)).findByEmail(anyString())
         verify(projectRepo, times(1)).existsByName(anyString())
     }
+
+    @Test
+    @DisplayName("특정 사용자의 프로젝트 목록 조회")
+    fun findAllByMemberId() {
+
+    }
 }

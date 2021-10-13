@@ -3,6 +3,7 @@ package me.whypie.repository
 import me.whypie.model.entity.project.Project
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.repository.EntityGraph
 import org.springframework.data.jpa.repository.JpaRepository
 
 /**
@@ -11,5 +12,7 @@ import org.springframework.data.jpa.repository.JpaRepository
  */
 interface ProjectRepo : JpaRepository<Project, Long> {
     fun existsByName(name: String): Boolean
+
+    @EntityGraph(attributePaths = ["member"])
     fun findAllByMemberId(id: Long, pageable: Pageable): Page<Project>
 }
