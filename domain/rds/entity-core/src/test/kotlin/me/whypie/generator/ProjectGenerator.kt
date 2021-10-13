@@ -5,6 +5,7 @@ import me.whypie.model.entity.project.Project
 import me.whypie.model.entity.project.ProjectType
 import me.whypie.repository.ProjectRepo
 import org.springframework.boot.test.context.TestComponent
+import org.springframework.data.domain.PageImpl
 import org.springframework.test.context.TestConstructor
 
 /**
@@ -50,6 +51,18 @@ class ProjectGenerator(
 
         fun generateProject(name: String, type: ProjectType, member: Member): Project {
             return Project(name = name, domain = DOMAIN, type = type, member = member)
+        }
+
+        fun generateProjectListMock(count: Int): List<Project> {
+            val listMock = mutableListOf<Project>()
+            for (i: Int in 1..count) {
+                listMock.add(generateProject("mocking project $i", ProjectType.SERVICE, MemberGenerator.member()))
+            }
+            return listMock
+        }
+
+        fun generateProjectPageMock(count: Int): PageImpl<Project> {
+            return PageImpl(generateProjectListMock(count))
         }
     }
 }

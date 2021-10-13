@@ -110,7 +110,7 @@ class ProjectRepoTest(
         projectGenerator.generateProjectList(savedMember, count)
 
         val requestPage = 1
-        val pageSize = 10;
+        val pageSize = 10
         val pageRequest = PageRequest.of(requestPage - 1, pageSize)
 
         // When
@@ -119,9 +119,9 @@ class ProjectRepoTest(
         // Then
         assertAll(
             { assertEquals(expected.totalPages, requestPage, "조회된 전체 페이지 수") },
-            { assertEquals(expected.totalElements, count.toLong(), "조회된 전체 요소 수") },
+            { assertEquals(expected.totalElements, count.toLong(), "조회된 전체 컨텐츠 개수") },
             { assertEquals(expected.number, requestPage - 1, "현재 페이지 번호") },
-            { assertEquals(expected.numberOfElements, count, "현재 페이지의 요수 수") },
+            { assertEquals(expected.numberOfElements, count, "현재 페이지의 컨텐츠 개수") },
             { assertEquals(expected.size, pageSize, "조회 페이지당 요소 수") },
             {
                 expected.stream()

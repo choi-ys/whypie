@@ -17,6 +17,7 @@ import org.mockito.BDDMockito.*
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
+import org.springframework.data.domain.PageRequest
 import java.util.*
 
 /**
@@ -94,6 +95,41 @@ internal class ProjectServiceTest {
     @Test
     @DisplayName("특정 사용자의 프로젝트 목록 조회")
     fun findAllByMemberId() {
+        // Given
+        val memberId = 1L
+        val requestPage = 1
+        val perPageNumber = 10
+        val pageRequest = PageRequest.of(requestPage - 1, perPageNumber)
+        val generateMockCount = 8
+        given(projectRepo.findAllByMemberId(memberId, pageRequest))
+            .willReturn(ProjectGenerator.generateProjectPageMock(generateMockCount))
 
+        // When
+        val expected = projectService.findAllByMemberId(memberId, pageRequest)
+
+        // Then
+        verify(projectRepo, times(1)).findAllByMemberId(memberId, pageRequest)
+
+        println(expected)
+        assertAll(
+            { assertEquals(expected.totalPages, (generateMockCount / perPageNumber) + 1, "조회된 전체 페이지 수") },
+            { assertEquals(expected.totalElementCount, generateMockCount.toLong(), "조회된 전체 컨텐츠 개수") },
+            { assertEquals(expected.currentPage, (generateMockCount / perPageNumber) + 1, "현재 페이지 번호") },
+            { assertEquals(expected.currentElementCount, generateMockCount, "현제 페이지의 컨텐츠 개수") },
+            {
+                assertEquals(expected.perPageNumber,
+                    if (generateMockCount / perPageNumber > 1) perPageNumber else generateMockCount,
+                    "조회 페이지당 요소 개수")
+            },
+            { assertEquals(expected.firstPage, expected.currentPage == 1, "첫 페이지 여부") },
+            { assertEquals(expected.lastPage, expected.totalElementCount / perPageNumber < 1, "마지막 페이지 여부") },
+            {
+                assertEquals(expected.hasNextPage,
+                    expected.totalElementCount / (perPageNumber * requestPage) > 1,
+                    "다음 페이지 존재 여부")
+            },
+            { assertEquals(expected.hasPrevious, requestPage != 1, "이전 페이지 존재 여부") },
+            { assertEquals(expected.embedded.size, generateMockCount) }
+        )
     }
 }
