@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.springframework.context.annotation.Import
+import org.springframework.data.domain.PageRequest
 import org.springframework.test.context.TestConstructor
 import java.util.stream.Collectors
 
@@ -108,12 +109,20 @@ class ProjectRepoTest(
         val count = 10
         projectGenerator.generateProjectList(savedMember, count)
 
+        val requestPage = 1
+        val pageSize = 10;
+        val pageRequest = PageRequest.of(requestPage - 1, pageSize)
+
         // When
-        val expected = projectRepo.findAllByMemberId(savedMember.id)
+        val expected = projectRepo.findAllByMemberId(savedMember.id, pageRequest)
 
         // Then
         assertAll(
-            { assertEquals(expected.size, count) },
+            { assertEquals(expected.totalPages, requestPage, "조회된 전체 페이지 수") },
+            { assertEquals(expected.totalElements, count.toLong(), "조회된 전체 요소 수") },
+            { assertEquals(expected.number, requestPage - 1, "현재 페이지 번호") },
+            { assertEquals(expected.numberOfElements, count, "현재 페이지의 요수 수") },
+            { assertEquals(expected.size, pageSize, "조회 페이지당 요소 수") },
             {
                 expected.stream()
                     .map { it.member.id }
