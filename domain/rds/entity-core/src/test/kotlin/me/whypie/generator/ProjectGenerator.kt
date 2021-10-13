@@ -20,6 +20,21 @@ class ProjectGenerator(
         return projectRepo.save(generateProject(member))
     }
 
+    fun savedProject(name: String, type: ProjectType, member: Member): Project {
+        return projectRepo.save(generateProject(name, type, member))
+    }
+
+    fun generateProjectList(member: Member, count: Int) {
+        for (i: Int in 1..count) {
+            val type = if (i % 2 == 0) {
+                ProjectType.SERVICE
+            } else {
+                ProjectType.BACK_OFFICE
+            }
+            savedProject((NAME + i), type, member)
+        }
+    }
+
     companion object {
         val NAME = "Cloud:M"
         val DOMAIN = "cloudm.co.kr"
@@ -31,6 +46,10 @@ class ProjectGenerator(
 
         fun generateProject(member: Member): Project {
             return Project(name = NAME, domain = DOMAIN, type = TYPE, member = member)
+        }
+
+        fun generateProject(name: String, type: ProjectType, member: Member): Project {
+            return Project(name = name, domain = DOMAIN, type = type, member = member)
         }
     }
 }

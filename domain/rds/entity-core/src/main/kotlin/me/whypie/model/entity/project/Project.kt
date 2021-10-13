@@ -29,6 +29,7 @@ data class Project(
     @Column(name = "domain", nullable = false, length = 50)
     var domain: String,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false, length = 50)
     var type: ProjectType,
 

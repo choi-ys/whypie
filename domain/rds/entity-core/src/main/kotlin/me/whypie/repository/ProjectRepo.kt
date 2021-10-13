@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository
  */
 interface ProjectRepo : JpaRepository<Project, Long> {
     fun existsByName(name: String): Boolean
+    fun findAllByMemberId(id: Long): List<Project>
 }

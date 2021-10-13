@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertAll
 import org.springframework.context.annotation.Import
 import org.springframework.test.context.TestConstructor
+import java.util.stream.Collectors
 
 /**
  * @author : choi-ys
@@ -97,5 +98,30 @@ class ProjectRepoTest(
         }.let {
             assertTrue(it is RuntimeException)
         }
+    }
+
+    @Test
+    @DisplayName("특정 사용자의 프로젝트 목록 조회")
+    fun findAllByMemberId() {
+        // Given
+        val savedMember = memberGenerator.savedMember()
+        val count = 10
+        projectGenerator.generateProjectList(savedMember, count)
+
+        // When
+        val expected = projectRepo.findAllByMemberId(savedMember.id)
+
+        // Then
+        assertAll(
+            { assertEquals(expected.size, count) },
+            {
+                expected.stream()
+                    .map { it.member.id }
+                    .collect(Collectors.toSet()).let {
+                        assertEquals(it.size, 1)
+                        assertTrue(it.contains(savedMember.id))
+                    }
+            }
+        )
     }
 }
