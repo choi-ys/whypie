@@ -9,7 +9,6 @@ import me.whypie.model.entity.project.ProjectType
  * @date : 2021/10/12 2:19 오후
  */
 data class CreateProjectRequest(
-    val memberId: Long,
     val name: String,
     val domain: String,
     val type: ProjectType,

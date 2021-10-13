@@ -1,5 +1,6 @@
 package me.whypie.service
 
+import me.whypie.model.LoginUser
 import me.whypie.model.dto.request.CreateProjectRequest
 import me.whypie.model.dto.response.CreateProjectResponse
 import me.whypie.repository.MemberRepo
@@ -18,8 +19,8 @@ class ProjectService(
     private val memberRepo: MemberRepo,
 ) {
     @Transactional
-    fun create(createProjectRequest: CreateProjectRequest): CreateProjectResponse {
-        val member = memberRepo.findById(createProjectRequest.memberId).orElseThrow() {
+    fun create(createProjectRequest: CreateProjectRequest, loginUser: LoginUser): CreateProjectResponse {
+        val member = memberRepo.findByEmail(loginUser.email).orElseThrow() {
             throw IllegalArgumentException("")
         }
         if (projectRepo.existsByName(createProjectRequest.name)) {

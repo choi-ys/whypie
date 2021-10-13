@@ -1,5 +1,6 @@
 package me.whypie.service
 
+import me.whypie.generator.LoginUserGenerator
 import me.whypie.generator.MemberGenerator
 import me.whypie.generator.ProjectGenerator
 import me.whypie.model.dto.request.CreateProjectRequest
@@ -39,18 +40,21 @@ internal class ProjectServiceTest {
     @DisplayName("프로젝트 생성")
     fun create() {
         // Given
-        val projectMock = ProjectGenerator.generateProjectMock()
-        given(memberRepo.findById(anyLong())).willReturn(Optional.of(MemberGenerator.member()))
+        val memberMock = MemberGenerator.member()
+        val loginUserMock = LoginUserGenerator.generateLoginUserMock(memberMock)
+        val projectMock = ProjectGenerator.generateProject(memberMock)
+
+        given(memberRepo.findByEmail(anyString())).willReturn(Optional.of(memberMock))
         given(projectRepo.existsByName(anyString())).willReturn(false)
         given(projectRepo.save(projectMock)).will(AdditionalAnswers.returnsFirstArg<Project>())
 
-        val createProjectRequest = CreateProjectRequest(0L, projectMock.name, projectMock.domain, projectMock.type)
+        val createProjectRequest = CreateProjectRequest(projectMock.name, projectMock.domain, projectMock.type)
 
         // When
-        val expected = projectService.create(createProjectRequest)
+        val expected = projectService.create(createProjectRequest, loginUserMock)
 
         // Then
-        verify(memberRepo, times(1)).findById(anyLong())
+        verify(memberRepo, times(1)).findByEmail(anyString())
         verify(projectRepo, times(1)).existsByName(anyString())
         verify(projectRepo, times(1)).save(projectMock)
 
@@ -66,20 +70,24 @@ internal class ProjectServiceTest {
     @DisplayName("프로젝트 생성 실패: 중복된 Name")
     fun create_Fail_Cause_DuplicatedName() {
         // Given
-        val projectMock = ProjectGenerator.generateProjectMock()
-        given(memberRepo.findById(anyLong())).willReturn(Optional.of(MemberGenerator.member()))
+        val memberMock = MemberGenerator.member()
+        val loginUserMock = LoginUserGenerator.generateLoginUserMock(memberMock)
+        val projectMock = ProjectGenerator.generateProject(memberMock)
+
+        given(memberRepo.findByEmail(anyString())).willReturn(Optional.of(MemberGenerator.member()))
         given(projectRepo.existsByName(anyString())).willReturn(true)
 
-        val createProjectRequest = CreateProjectRequest(0L, projectMock.name, projectMock.domain, projectMock.type)
+        val createProjectRequest = CreateProjectRequest(projectMock.name, projectMock.domain, projectMock.type)
 
         // When
         assertThrows(IllegalArgumentException::class.java) {
-            projectService.create(createProjectRequest)
+            projectService.create(createProjectRequest, loginUserMock)
         }.let {
             assertTrue(it is RuntimeException)
         }
 
         // Then
+        verify(memberRepo, times(1)).findByEmail(anyString())
         verify(projectRepo, times(1)).existsByName(anyString())
     }
 }
