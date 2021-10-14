@@ -16,13 +16,14 @@ data class ProjectResponse(
     val domain: String,
     val type: ProjectType,
     val status: ProjectStatus,
-    val creator: MemberProfileResponse,
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     val createdAt: LocalDateTime?,
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Seoul")
     val updatedAt: LocalDateTime?,
+
+    val creator: MemberProfileResponse,
 ) {
     companion object {
         fun mapTo(project: Project): ProjectResponse {
@@ -32,9 +33,9 @@ data class ProjectResponse(
                 domain = project.domain,
                 type = project.type,
                 status = project.status,
-                creator = MemberProfileResponse.mapTo(project.member),
                 createdAt = project.createdAt,
-                updatedAt = project.updatedAt
+                updatedAt = project.updatedAt,
+                creator = MemberProfileResponse.mapTo(project.member)
             )
         }
     }
