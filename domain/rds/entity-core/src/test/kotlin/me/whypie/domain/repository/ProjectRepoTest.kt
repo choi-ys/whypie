@@ -144,7 +144,7 @@ class ProjectRepoTest(
 
         // When
         val expected = projectRepo.findById(savedProject.id).orElseThrow()
-        expected.updateProjectStatus(ProjectStatus.ENABLE)
+        expected.updateStatus(ProjectStatus.ENABLE)
         flush()
 
         // Then

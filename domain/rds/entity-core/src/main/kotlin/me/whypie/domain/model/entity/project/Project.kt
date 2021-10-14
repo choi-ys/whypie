@@ -42,7 +42,7 @@ data class Project(
     var member: Member,
 ) : Auditor() {
 
-    fun updateProjectStatus(newStatus: ProjectStatus) {
+    fun updateStatus(newStatus: ProjectStatus) {
         status = newStatus
     }
 }
