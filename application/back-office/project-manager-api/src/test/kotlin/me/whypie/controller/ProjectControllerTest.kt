@@ -5,6 +5,7 @@ import me.whypie.config.EnableMockMvc
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
 import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.model.entity.project.ProjectType
 import me.whypie.generator.TokenGenerator
@@ -23,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.transaction.annotation.Transactional
+import javax.persistence.EntityManager
 
 /**
  * @author : choi-ys
@@ -215,6 +217,41 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("domain").value(savedProject.domain))
             .andExpect(jsonPath("type").value(savedProject.type.name))
             .andExpect(jsonPath("status").value(savedProject.status.name))
+            .andExpect(jsonPath("createdAt").isNotEmpty)
+            .andExpect(jsonPath("updatedAt").isNotEmpty)
+            .andExpect(jsonPath("creator.id").value(savedProject.member.id))
+            .andExpect(jsonPath("creator.email").value(savedProject.member.email))
+            .andExpect(jsonPath("creator.name").value(savedProject.member.name))
+            .andExpect(jsonPath("creator.nickname").value(savedProject.member.nickname))
+    }
+
+    @Test
+    @DisplayName("[200:PATCH]프로젝트 상태 수정")
+    fun updateStatus() {
+        // Given
+        val savedMember = memberGenerator.savedCertifiedMember()
+        val savedProject = projectGenerator.savedProject(savedMember)
+        val accessToken = tokenGenerator.accessToken(savedMember.email, savedMember.mapToSimpleGrantedAuthority())
+
+        val patchProjectStatusRequest = PatchProjectStatusRequest(ProjectStatus.ENABLE)
+
+        // When
+        val resultActions = mockMvc.perform(
+            MockMvcRequestBuilders.patch("$PROJECT_URL/${savedProject.id}")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, TokenGenerator.getBearerToken(accessToken))
+                .content(objectMapper.writeValueAsString(patchProjectStatusRequest))
+        )
+
+        // Then
+        resultActions.andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("id").exists())
+            .andExpect(jsonPath("name").value(savedProject.name))
+            .andExpect(jsonPath("domain").value(savedProject.domain))
+            .andExpect(jsonPath("type").value(savedProject.type.name))
+            .andExpect(jsonPath("status").value(patchProjectStatusRequest.status.name))
             .andExpect(jsonPath("createdAt").isNotEmpty)
             .andExpect(jsonPath("updatedAt").isNotEmpty)
             .andExpect(jsonPath("creator.id").value(savedProject.member.id))

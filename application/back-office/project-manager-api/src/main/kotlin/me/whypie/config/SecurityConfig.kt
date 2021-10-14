@@ -1,8 +1,8 @@
 package me.whypie.config
 
 import me.whypie.component.TokenVerifier
-import me.whypie.filter.JwtConfigurer
 import me.whypie.domain.model.entity.member.MemberRole
+import me.whypie.filter.JwtConfigurer
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -34,6 +34,7 @@ class SecurityConfig(
                 it
                     .antMatchers(HttpMethod.GET, "/project/**", "/project/member").permitAll()
                     .antMatchers(HttpMethod.POST, "/project").hasRole(MemberRole.CERTIFIED_MEMBER.name)
+                    .antMatchers(HttpMethod.PATCH, "/project/**").hasRole(MemberRole.CERTIFIED_MEMBER.name)
                     .anyRequest().authenticated()
             }
     }
