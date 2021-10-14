@@ -12,6 +12,6 @@ import javax.annotation.PostConstruct
 class P6spyLogMessageFormatConfiguration {
     @PostConstruct
     fun setLogMessageFormat() {
-        P6SpyOptions.getActiveInstance().logMessageFormat = me.whypie.config.P6spySqlFormatConfiguration::class.java.name
+        P6SpyOptions.getActiveInstance().logMessageFormat = P6spySqlFormatConfiguration::class.java.name
     }
 }

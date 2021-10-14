@@ -15,7 +15,7 @@ import javax.persistence.EntityManager
  */
 @DataJpaTest(showSql = false)
 @ImportAutoConfiguration(DataSourceDecoratorAutoConfiguration::class)
-@Import(me.whypie.config.P6spyLogMessageFormatConfiguration::class, me.whypie.config.DataJpaConfig::class)
+@Import(P6spyLogMessageFormatConfiguration::class, DataJpaConfig::class)
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @ActiveProfiles("test")
 class DataJpaTestConfig {
