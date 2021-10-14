@@ -54,6 +54,7 @@ class ProjectService(
         }
     }
 
+    @Transactional
     fun updateStatus(
         projectId: Long,
         patchProjectStatusRequest: PatchProjectStatusRequest,
