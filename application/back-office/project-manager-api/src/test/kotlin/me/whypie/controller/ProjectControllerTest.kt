@@ -2,6 +2,8 @@ package me.whypie.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.config.EnableMockMvc
+import me.whypie.domain.assertions.AssertionProject.Companion.assertDetailResponse
+import me.whypie.domain.assertions.AssertionProject.Companion.assertPageResponse
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
 import me.whypie.domain.model.dto.request.CreateProjectRequest
@@ -103,26 +105,7 @@ internal class ProjectControllerTest {
         // Then
         resultActions.andDo(print())
             .andExpect(status().isOk)
-            .andExpect(jsonPath("totalPages").exists())
-            .andExpect(jsonPath("totalElementCount").exists())
-            .andExpect(jsonPath("currentPage").exists())
-            .andExpect(jsonPath("currentElementCount").exists())
-            .andExpect(jsonPath("perPageNumber").exists())
-            .andExpect(jsonPath("firstPage").exists())
-            .andExpect(jsonPath("lastPage").exists())
-            .andExpect(jsonPath("hasNextPage").exists())
-            .andExpect(jsonPath("hasPrevious").exists())
-            .andExpect(jsonPath("$.embedded[*].id").exists())
-            .andExpect(jsonPath("$.embedded[*].name").exists())
-            .andExpect(jsonPath("$.embedded[*].domain").exists())
-            .andExpect(jsonPath("$.embedded[*].type").exists())
-            .andExpect(jsonPath("$.embedded[*].status").exists())
-            .andExpect(jsonPath("$.embedded[*].createdAt").exists())
-            .andExpect(jsonPath("$.embedded[*].updatedAt").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.id").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.email").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.name").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.nickname").exists())
+        assertPageResponse(resultActions = resultActions)
     }
 
     @Test
@@ -147,26 +130,7 @@ internal class ProjectControllerTest {
         // Then
         resultActions.andDo(print())
             .andExpect(status().isOk)
-            .andExpect(jsonPath("totalPages").exists())
-            .andExpect(jsonPath("totalElementCount").exists())
-            .andExpect(jsonPath("currentPage").exists())
-            .andExpect(jsonPath("currentElementCount").exists())
-            .andExpect(jsonPath("perPageNumber").exists())
-            .andExpect(jsonPath("firstPage").exists())
-            .andExpect(jsonPath("lastPage").exists())
-            .andExpect(jsonPath("hasNextPage").exists())
-            .andExpect(jsonPath("hasPrevious").exists())
-            .andExpect(jsonPath("$.embedded[*].id").exists())
-            .andExpect(jsonPath("$.embedded[*].name").exists())
-            .andExpect(jsonPath("$.embedded[*].domain").exists())
-            .andExpect(jsonPath("$.embedded[*].type").exists())
-            .andExpect(jsonPath("$.embedded[*].status").exists())
-            .andExpect(jsonPath("$.embedded[*].createdAt").exists())
-            .andExpect(jsonPath("$.embedded[*].updatedAt").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.id").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.email").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.name").exists())
-            .andExpect(jsonPath("$.embedded[*].creator.nickname").exists())
+        assertPageResponse(resultActions = resultActions)
     }
 
     @Test
@@ -217,12 +181,7 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("domain").value(savedProject.domain))
             .andExpect(jsonPath("type").value(savedProject.type.name))
             .andExpect(jsonPath("status").value(savedProject.status.name))
-            .andExpect(jsonPath("createdAt").isNotEmpty)
-            .andExpect(jsonPath("updatedAt").isNotEmpty)
-            .andExpect(jsonPath("creator.id").value(savedProject.member.id))
-            .andExpect(jsonPath("creator.email").value(savedProject.member.email))
-            .andExpect(jsonPath("creator.name").value(savedProject.member.name))
-            .andExpect(jsonPath("creator.nickname").value(savedProject.member.nickname))
+        assertDetailResponse(resultActions = resultActions, given = savedProject)
     }
 
     @Test
@@ -252,12 +211,7 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("domain").value(savedProject.domain))
             .andExpect(jsonPath("type").value(savedProject.type.name))
             .andExpect(jsonPath("status").value(patchProjectStatusRequest.status.name))
-            .andExpect(jsonPath("createdAt").isNotEmpty)
-            .andExpect(jsonPath("updatedAt").isNotEmpty)
-            .andExpect(jsonPath("creator.id").value(savedProject.member.id))
-            .andExpect(jsonPath("creator.email").value(savedProject.member.email))
-            .andExpect(jsonPath("creator.name").value(savedProject.member.name))
-            .andExpect(jsonPath("creator.nickname").value(savedProject.member.nickname))
+        assertDetailResponse(resultActions = resultActions, given = savedProject)
     }
 
     @Test
@@ -290,11 +244,6 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("domain").value(updateRequestDomain))
             .andExpect(jsonPath("type").value(updateRequestType.name))
             .andExpect(jsonPath("status").value(savedProject.status.name))
-            .andExpect(jsonPath("createdAt").isNotEmpty)
-            .andExpect(jsonPath("updatedAt").isNotEmpty)
-            .andExpect(jsonPath("creator.id").value(savedProject.member.id))
-            .andExpect(jsonPath("creator.email").value(savedProject.member.email))
-            .andExpect(jsonPath("creator.name").value(savedProject.member.name))
-            .andExpect(jsonPath("creator.nickname").value(savedProject.member.nickname))
+        assertDetailResponse(resultActions = resultActions, given = savedProject)
     }
 }
