@@ -1,6 +1,7 @@
-package me.whypie.domain.model.dto.response
+package me.whypie.domain.model.dto.response.project
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import me.whypie.domain.model.dto.response.member.MemberProfileResponse
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.model.entity.project.ProjectType

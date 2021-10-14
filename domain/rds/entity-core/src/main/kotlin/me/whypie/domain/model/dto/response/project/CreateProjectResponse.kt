@@ -1,4 +1,4 @@
-package me.whypie.domain.model.dto.response
+package me.whypie.domain.model.dto.response.project
 
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus

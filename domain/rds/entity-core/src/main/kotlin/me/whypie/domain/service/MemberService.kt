@@ -1,7 +1,7 @@
 package me.whypie.domain.service
 
-import me.whypie.domain.model.dto.request.SignupRequest
-import me.whypie.domain.model.dto.response.MemberProfileResponse
+import me.whypie.domain.model.dto.request.member.SignupRequest
+import me.whypie.domain.model.dto.response.member.MemberProfileResponse
 import me.whypie.domain.repository.MemberRepo
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service

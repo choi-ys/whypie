@@ -1,4 +1,4 @@
-package me.whypie.domain.model.dto.request
+package me.whypie.domain.model.dto.request.member
 
 import me.whypie.domain.model.entity.member.Member
 import org.springframework.security.crypto.password.PasswordEncoder

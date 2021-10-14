@@ -3,9 +3,9 @@ package me.whypie.domain.service
 import me.whypie.domain.generator.LoginUserGenerator
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
-import me.whypie.domain.model.dto.request.CreateProjectRequest
-import me.whypie.domain.model.dto.request.PatchProjectRequest
-import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
+import me.whypie.domain.model.dto.request.project.CreateProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectStatusRequest
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.model.entity.project.ProjectType

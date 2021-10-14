@@ -1,4 +1,4 @@
-package me.whypie.domain.model.dto.response
+package me.whypie.domain.model.dto.response.member
 
 import me.whypie.domain.model.entity.member.Member
 

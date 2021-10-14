@@ -4,7 +4,7 @@ import me.whypie.config.DataJpaTestConfig
 import me.whypie.domain.assertions.AssertionProject.Companion.assertEntity
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
-import me.whypie.domain.model.dto.request.PatchProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectRequest
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.model.entity.project.ProjectType

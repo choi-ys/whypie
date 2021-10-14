@@ -1,6 +1,6 @@
 package me.whypie.domain.service
 
-import me.whypie.domain.model.dto.request.SignupRequest
+import me.whypie.domain.model.dto.request.member.SignupRequest
 import me.whypie.domain.model.entity.member.Member
 import me.whypie.domain.repository.MemberRepo
 import org.junit.jupiter.api.Assertions.assertEquals

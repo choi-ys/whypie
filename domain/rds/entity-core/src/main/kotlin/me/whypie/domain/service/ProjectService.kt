@@ -1,10 +1,10 @@
 package me.whypie.domain.service
 
-import me.whypie.domain.model.dto.request.CreateProjectRequest
-import me.whypie.domain.model.dto.request.PatchProjectRequest
-import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
-import me.whypie.domain.model.dto.response.CreateProjectResponse
-import me.whypie.domain.model.dto.response.ProjectResponse
+import me.whypie.domain.model.dto.request.project.CreateProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectStatusRequest
+import me.whypie.domain.model.dto.response.project.CreateProjectResponse
+import me.whypie.domain.model.dto.response.project.ProjectResponse
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.repository.MemberRepo
 import me.whypie.domain.repository.ProjectRepo

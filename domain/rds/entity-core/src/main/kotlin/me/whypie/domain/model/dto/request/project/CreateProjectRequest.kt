@@ -1,4 +1,4 @@
-package me.whypie.domain.model.dto.request
+package me.whypie.domain.model.dto.request.project
 
 import me.whypie.domain.model.entity.member.Member
 import me.whypie.domain.model.entity.project.Project

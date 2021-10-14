@@ -1,6 +1,6 @@
 package me.whypie.domain.model.entity.project
 
-import me.whypie.domain.model.dto.request.PatchProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectRequest
 import me.whypie.domain.model.entity.member.Member
 import me.whypie.model.entity.base.Auditor
 import javax.persistence.*
