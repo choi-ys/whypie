@@ -1,4 +1,4 @@
-package me.whypie.model.entity.page
+package me.whypie.model.dto.response.page
 
 import org.springframework.data.domain.Page
 
