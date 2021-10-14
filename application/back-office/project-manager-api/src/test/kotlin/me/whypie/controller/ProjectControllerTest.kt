@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.config.EnableMockMvc
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
+import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.model.entity.project.ProjectStatus
+import me.whypie.domain.model.entity.project.ProjectType
 import me.whypie.generator.TokenGenerator
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -56,7 +58,11 @@ internal class ProjectControllerTest {
     fun create() {
         // Given
         val savedMember = memberGenerator.savedCertifiedMember()
-        val project = ProjectGenerator.generateProject(savedMember)
+        val name = "Cloud:M"
+        val domain = "cloudm.co.kr"
+        val type = ProjectType.BACK_OFFICE
+        val createProjectRequest = CreateProjectRequest(name, domain, type)
+
         val accessToken = tokenGenerator.accessToken(savedMember.email, savedMember.mapToSimpleGrantedAuthority())
 
         // When
@@ -65,16 +71,16 @@ internal class ProjectControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, TokenGenerator.getBearerToken(accessToken))
-                .content(objectMapper.writeValueAsString(project))
+                .content(objectMapper.writeValueAsString(createProjectRequest))
         )
 
         // Then
         resultActions.andDo(print())
             .andExpect(status().isOk)
-            .andExpect(jsonPath("id").exists())
-            .andExpect(jsonPath("domain").value(project.domain))
-            .andExpect(jsonPath("type").value(project.type.name))
-            .andExpect(jsonPath("status").value(project.status.name))
+            .andExpect(jsonPath("name").value(name))
+            .andExpect(jsonPath("domain").value(domain))
+            .andExpect(jsonPath("type").value(type.name))
+            .andExpect(jsonPath("status").value(ProjectStatus.DISABLE.name))
     }
 
     @Test
