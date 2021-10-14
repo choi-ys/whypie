@@ -1,6 +1,7 @@
 package me.whypie.domain.service
 
 import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.model.dto.request.PatchProjectRequest
 import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
 import me.whypie.domain.model.dto.response.CreateProjectResponse
 import me.whypie.domain.model.dto.response.ProjectResponse
@@ -62,6 +63,17 @@ class ProjectService(
     ): ProjectResponse {
         val project = getProject(projectRepo.findByIdAndMemberEmail(projectId, loginUser.email))
         project.updateStatus(patchProjectStatusRequest.status)
+        return ProjectResponse.mapTo(project)
+    }
+
+    @Transactional
+    fun update(
+        projectId: Long,
+        patchProjectRequest: PatchProjectRequest,
+        loginUser: LoginUser,
+    ): ProjectResponse {
+        val project = getProject(projectRepo.findByIdAndMemberEmail(projectId, loginUser.email))
+        project.update(patchProjectRequest)
         return ProjectResponse.mapTo(project)
     }
 

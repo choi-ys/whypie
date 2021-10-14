@@ -4,9 +4,11 @@ import me.whypie.domain.generator.LoginUserGenerator
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
 import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.model.dto.request.PatchProjectRequest
 import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus
+import me.whypie.domain.model.entity.project.ProjectType
 import me.whypie.domain.repository.MemberRepo
 import me.whypie.domain.repository.ProjectRepo
 import org.junit.jupiter.api.Assertions.*
@@ -183,5 +185,33 @@ internal class ProjectServiceTest {
         // Then
         verify(projectRepo, times(1)).findByIdAndMemberEmail(anyLong(), anyString())
         assertEquals(expected.status, patchProjectStatusRequest.status)
+    }
+
+    @Test
+    @DisplayName("프로젝트 정보 변경")
+    fun update() {
+        // Given
+        val memberMock = MemberGenerator.member()
+        val loginUserMock = LoginUserGenerator.generateLoginUserMock(memberMock)
+        val projectMock = ProjectGenerator.generateProject(memberMock)
+
+        given(projectRepo.findByIdAndMemberEmail(anyLong(), anyString()))
+            .willReturn(Optional.of(projectMock))
+
+        val updateRequestName = "updated name";
+        val updateRequestDomain = "update.domain.com"
+        val updateRequestType = ProjectType.SERVICE
+        val patchProjectRequest = PatchProjectRequest(updateRequestName, updateRequestDomain, updateRequestType)
+
+        // When
+        val expected = projectService.update(projectMock.id, patchProjectRequest, loginUserMock)
+
+        // Then
+        verify(projectRepo, times(1)).findByIdAndMemberEmail(anyLong(), anyString())
+        assertAll(
+            { assertEquals(expected.name, updateRequestName) },
+            { assertEquals(expected.domain, updateRequestDomain) },
+            { assertEquals(expected.type, updateRequestType) }
+        )
     }
 }
