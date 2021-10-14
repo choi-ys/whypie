@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.config.EnableMockMvc
 import me.whypie.generator.TokenGenerator
 import me.whypie.model.dto.request.LoginRequest
-import me.whypie.domain.model.dto.request.SignupRequest
+import me.whypie.domain.model.dto.request.member.SignupRequest
 import me.whypie.service.LoginService
 import me.whypie.domain.service.MemberService
 import org.junit.jupiter.api.DisplayName

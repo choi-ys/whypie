@@ -1,8 +1,8 @@
 package me.whypie.controller
 
-import me.whypie.domain.model.dto.request.CreateProjectRequest
-import me.whypie.domain.model.dto.request.PatchProjectRequest
-import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
+import me.whypie.domain.model.dto.request.project.CreateProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectRequest
+import me.whypie.domain.model.dto.request.project.PatchProjectStatusRequest
 import me.whypie.domain.service.ProjectService
 import me.whypie.domain.utils.page.PageUtils
 import me.whypie.model.CurrentUser
