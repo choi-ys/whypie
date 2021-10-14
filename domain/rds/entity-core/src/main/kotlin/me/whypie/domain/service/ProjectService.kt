@@ -1,10 +1,10 @@
 package me.whypie.domain.service
 
 import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
 import me.whypie.domain.model.dto.response.CreateProjectResponse
 import me.whypie.domain.model.dto.response.ProjectResponse
 import me.whypie.domain.model.entity.project.Project
-import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.repository.MemberRepo
 import me.whypie.domain.repository.ProjectRepo
 import me.whypie.model.LoginUser
@@ -54,9 +54,13 @@ class ProjectService(
         }
     }
 
-    fun updateStatus(projectId: Long, projectStatus: ProjectStatus, loginUser: LoginUser): ProjectResponse {
+    fun updateStatus(
+        projectId: Long,
+        patchProjectStatusRequest: PatchProjectStatusRequest,
+        loginUser: LoginUser,
+    ): ProjectResponse {
         val project = getProject(projectRepo.findByIdAndMemberEmail(projectId, loginUser.email))
-        project.updateStatus(projectStatus)
+        project.updateStatus(patchProjectStatusRequest.status)
         return ProjectResponse.mapTo(project)
     }
 

@@ -4,6 +4,7 @@ import me.whypie.domain.generator.LoginUserGenerator
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
 import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.repository.MemberRepo
@@ -174,13 +175,13 @@ internal class ProjectServiceTest {
         given(projectRepo.findByIdAndMemberEmail(anyLong(), anyString()))
             .willReturn(Optional.of(projectMock))
 
-        val newStatus = ProjectStatus.ENABLE
+        val patchProjectStatusRequest = PatchProjectStatusRequest(ProjectStatus.ENABLE)
 
         // When
-        val expected = projectService.updateStatus(projectMock.id, newStatus, loginUserMock)
+        val expected = projectService.updateStatus(projectMock.id, patchProjectStatusRequest, loginUserMock)
 
         // Then
         verify(projectRepo, times(1)).findByIdAndMemberEmail(anyLong(), anyString())
-        assertEquals(expected.status, newStatus)
+        assertEquals(expected.status, patchProjectStatusRequest.status)
     }
 }
