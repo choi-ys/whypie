@@ -1,7 +1,7 @@
 package me.whypie.domain.model.entity.project
 
-import me.whypie.model.entity.base.Auditor
 import me.whypie.domain.model.entity.member.Member
+import me.whypie.model.entity.base.Auditor
 import javax.persistence.*
 
 /**
@@ -40,5 +40,10 @@ data class Project(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     var member: Member,
-) : Auditor()
+) : Auditor() {
+
+    fun updateProjectStatus(newStatus: ProjectStatus) {
+        status = newStatus
+    }
+}
 // TODO: 용석(2021/10/12) 프로젝트 관련 정보 수정 처리

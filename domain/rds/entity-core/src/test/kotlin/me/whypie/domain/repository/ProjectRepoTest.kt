@@ -133,4 +133,21 @@ class ProjectRepoTest(
             }
         )
     }
+
+    @Test
+    @DisplayName("프로젝트 상태 변경")
+    fun updateProjectStatus() {
+        // Given
+        val savedCertifiedMember = memberGenerator.savedCertifiedMember()
+        val savedProject = projectGenerator.savedProject(savedCertifiedMember)
+        flushAndClear()
+
+        // When
+        val expected = projectRepo.findById(savedProject.id).orElseThrow()
+        expected.updateProjectStatus(ProjectStatus.ENABLE)
+        flush()
+
+        // Then
+        assertEquals(expected.status, ProjectStatus.ENABLE)
+    }
 }
