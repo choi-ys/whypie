@@ -1,5 +1,6 @@
 package me.whypie.domain.model.entity.project
 
+import me.whypie.domain.model.dto.request.PatchProjectRequest
 import me.whypie.domain.model.entity.member.Member
 import me.whypie.model.entity.base.Auditor
 import javax.persistence.*
@@ -44,6 +45,12 @@ data class Project(
 
     fun updateStatus(newStatus: ProjectStatus) {
         status = newStatus
+    }
+
+    fun update(patchProjectRequest: PatchProjectRequest) {
+        name = patchProjectRequest.name
+        domain = patchProjectRequest.domain
+        type = patchProjectRequest.type
     }
 }
 // TODO: 용석(2021/10/12) 프로젝트 관련 정보 수정 처리

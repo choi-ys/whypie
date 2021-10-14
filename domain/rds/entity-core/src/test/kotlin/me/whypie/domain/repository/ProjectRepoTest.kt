@@ -3,6 +3,7 @@ package me.whypie.domain.repository
 import me.whypie.config.DataJpaTestConfig
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
+import me.whypie.domain.model.dto.request.PatchProjectRequest
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.model.entity.project.ProjectType
@@ -143,11 +144,37 @@ class ProjectRepoTest(
         flushAndClear()
 
         // When
-        val expected = projectRepo.findById(savedProject.id).orElseThrow()
+        val expected = projectRepo.findByIdAndMemberEmail(savedProject.id, savedCertifiedMember.email).orElseThrow()
         expected.updateStatus(ProjectStatus.ENABLE)
         flush()
 
         // Then
         assertEquals(expected.status, ProjectStatus.ENABLE)
+    }
+
+    @Test
+    @DisplayName("프로젝트 정보 수정")
+    fun updateProject() {
+        // Given
+        val savedCertifiedMember = memberGenerator.savedCertifiedMember()
+        val savedProject = projectGenerator.savedProject(savedCertifiedMember)
+        flushAndClear()
+
+        val updateRequestName = "updated name";
+        val updateRequestDomain = "update.domain.com"
+        val updateRequestType = ProjectType.SERVICE
+        val patchProjectRequest = PatchProjectRequest(updateRequestName, updateRequestDomain, updateRequestType)
+
+        // When
+        val expected = projectRepo.findByIdAndMemberEmail(savedProject.id, savedCertifiedMember.email).orElseThrow()
+        expected.update(patchProjectRequest)
+        flush()
+
+        // Then
+        assertAll(
+            { assertEquals(expected.name, updateRequestName) },
+            { assertEquals(expected.domain, updateRequestDomain) },
+            { assertEquals(expected.type, updateRequestType) }
+        )
     }
 }
