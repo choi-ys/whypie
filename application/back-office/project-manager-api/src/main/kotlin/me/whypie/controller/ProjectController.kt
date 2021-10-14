@@ -1,6 +1,7 @@
 package me.whypie.controller
 
 import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.model.dto.request.PatchProjectRequest
 import me.whypie.domain.model.dto.request.PatchProjectStatusRequest
 import me.whypie.domain.service.ProjectService
 import me.whypie.domain.utils.page.PageUtils
@@ -49,7 +50,7 @@ class ProjectController(
     @GetMapping("{id}")
     fun findById(@PathVariable id: Long) = ResponseEntity.ok(projectService.findById(id))
 
-    @PatchMapping("{id}")
+    @PatchMapping("status/{id}")
     fun updateStatus(
         @PathVariable id: Long,
         @RequestBody patchProjectStatusRequest: PatchProjectStatusRequest,
@@ -59,6 +60,13 @@ class ProjectController(
         return ResponseEntity.ok(projectService.findById(id))
     }
 
-
-    // TODO: 용석(2021-10-14) findById, updateProject, updateProjectStatus
+    @PatchMapping("{id}")
+    fun updateStatus(
+        @PathVariable id: Long,
+        @RequestBody patchProjectRequest: PatchProjectRequest,
+        @CurrentUser loginUser: LoginUser,
+    ): ResponseEntity<*> {
+        ResponseEntity.ok(projectService.update(id, patchProjectRequest, loginUser))
+        return ResponseEntity.ok(projectService.findById(id))
+    }
 }
