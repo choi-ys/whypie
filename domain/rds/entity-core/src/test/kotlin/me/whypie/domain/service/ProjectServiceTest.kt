@@ -5,6 +5,7 @@ import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
 import me.whypie.domain.model.dto.request.CreateProjectRequest
 import me.whypie.domain.model.entity.project.Project
+import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.repository.MemberRepo
 import me.whypie.domain.repository.ProjectRepo
 import org.junit.jupiter.api.Assertions.*
@@ -160,5 +161,26 @@ internal class ProjectServiceTest {
             { assertEquals(expected.creator.name, projectMock.member.name) },
             { assertEquals(expected.creator.nickname, projectMock.member.nickname) },
         )
+    }
+
+    @Test
+    @DisplayName("프로젝트 상태 변경")
+    fun updateStatus() {
+        // Given
+        val memberMock = MemberGenerator.member()
+        val loginUserMock = LoginUserGenerator.generateLoginUserMock(memberMock)
+        val projectMock = ProjectGenerator.generateProject(memberMock)
+
+        given(projectRepo.findByIdAndMemberEmail(anyLong(), anyString()))
+            .willReturn(Optional.of(projectMock))
+
+        val newStatus = ProjectStatus.ENABLE
+
+        // When
+        val expected = projectService.updateStatus(projectMock.id, newStatus, loginUserMock)
+
+        // Then
+        verify(projectRepo, times(1)).findByIdAndMemberEmail(anyLong(), anyString())
+        assertEquals(expected.status, newStatus)
     }
 }

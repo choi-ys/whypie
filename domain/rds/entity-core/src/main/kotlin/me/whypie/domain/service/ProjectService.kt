@@ -1,17 +1,19 @@
 package me.whypie.domain.service
 
-import me.whypie.model.LoginUser
 import me.whypie.domain.model.dto.request.CreateProjectRequest
 import me.whypie.domain.model.dto.response.CreateProjectResponse
 import me.whypie.domain.model.dto.response.ProjectResponse
-import me.whypie.model.dto.response.page.PageResponse
 import me.whypie.domain.model.entity.project.Project
+import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.repository.MemberRepo
 import me.whypie.domain.repository.ProjectRepo
+import me.whypie.model.LoginUser
+import me.whypie.model.dto.response.page.PageResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 import java.util.stream.Collectors
 
 /**
@@ -42,9 +44,19 @@ class ProjectService(
     }
 
     fun findById(id: Long): ProjectResponse {
-        val project = projectRepo.findById(id).orElseThrow() {
+        val project = getProject(projectRepo.findById(id))
+        return ProjectResponse.mapTo(project)
+    }
+
+    private fun getProject(optionalProject: Optional<Project>): Project {
+        return optionalProject.orElseThrow() {
             throw IllegalArgumentException("")
         }
+    }
+
+    fun updateStatus(projectId: Long, projectStatus: ProjectStatus, loginUser: LoginUser): ProjectResponse {
+        val project = getProject(projectRepo.findByIdAndMemberEmail(projectId, loginUser.email))
+        project.updateStatus(projectStatus)
         return ProjectResponse.mapTo(project)
     }
 
