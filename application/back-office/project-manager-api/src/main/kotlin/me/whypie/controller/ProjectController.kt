@@ -32,7 +32,7 @@ class ProjectController(
         @CurrentUser loginUser: LoginUser,
     ): ResponseEntity<*> = ResponseEntity.ok(projectService.create(createProjectRequest, loginUser))
 
-    @GetMapping
+    @GetMapping("member")
     fun findAllByMemberId(
         @RequestParam memberId: Long,
         @PageableDefault(
@@ -44,6 +44,9 @@ class ProjectController(
     ): ResponseEntity<*> {
         return ResponseEntity.ok(projectService.findAllByMemberId(memberId, PageUtils.pageNumberToIndex(pageable)))
     }
+
+    @GetMapping("{id}")
+    fun findById(@PathVariable id: Long) = ResponseEntity.ok(projectService.findById(id))
 
     // TODO: 용석(2021-10-14) findById, updateProject, updateProjectStatus
 }

@@ -32,7 +32,7 @@ class SecurityConfig(
 
             .authorizeRequests {
                 it
-                    .antMatchers(HttpMethod.GET, "/project").permitAll()
+                    .antMatchers(HttpMethod.GET, "/project/**", "/project/member").permitAll()
                     .antMatchers(HttpMethod.POST, "/project").hasRole(MemberRole.CERTIFIED_MEMBER.name)
                     .anyRequest().authenticated()
             }

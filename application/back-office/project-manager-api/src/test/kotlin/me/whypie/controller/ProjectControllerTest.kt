@@ -5,7 +5,6 @@ import me.whypie.config.EnableMockMvc
 import me.whypie.generator.MemberGenerator
 import me.whypie.generator.ProjectGenerator
 import me.whypie.generator.TokenGenerator
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -31,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional
 @ActiveProfiles("test")
 @DisplayName("Application:API:Project")
 @Transactional
-@Disabled
 @Import(MemberGenerator::class, TokenGenerator::class, ProjectGenerator::class)
 internal class ProjectControllerTest {
 
@@ -56,9 +54,9 @@ internal class ProjectControllerTest {
     @DisplayName("[200:POST]프로젝트 생성")
     fun create() {
         // Given
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedCertifiedMember()
         val project = ProjectGenerator.generateProject(savedMember)
-        val accessToken = tokenGenerator.accessToken(savedMember.email, savedMember.roles)
+        val accessToken = tokenGenerator.accessToken(savedMember.email, savedMember.mapToSimpleGrantedAuthority())
 
         // When
         val resultActions = mockMvc.perform(
@@ -79,15 +77,16 @@ internal class ProjectControllerTest {
     }
 
     @Test
-    @DisplayName("[200:POST]특정 사용자의 프로젝트 조회: 첫페이지 조회")
+    @DisplayName("[200:GET]특정 사용자의 프로젝트 조회: 첫페이지 조회")
     fun findAllByMemberId_DefaultPageRequest() {
         // Given
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedUnCertifiedMember()
         projectGenerator.generateProjectList(savedMember, 5)
 
         // When
         val resultActions = mockMvc.perform(
-            MockMvcRequestBuilders.get(PROJECT_URL + "?memberId=" + savedMember.id)
+            MockMvcRequestBuilders.get("$PROJECT_URL/member")
+                .param("memberId", savedMember.id.toString())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
         )
@@ -118,15 +117,15 @@ internal class ProjectControllerTest {
     }
 
     @Test
-    @DisplayName("[200:POST]특정 사용자의 프로젝트 조회: 특정 페이지")
+    @DisplayName("[200:GET]특정 사용자의 프로젝트 조회: 특정 페이지")
     fun findAllByMemberId() {
         // Given
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedUnCertifiedMember()
         projectGenerator.generateProjectList(savedMember, 5)
 
         // When
         val resultActions = mockMvc.perform(
-            MockMvcRequestBuilders.get(PROJECT_URL)
+            MockMvcRequestBuilders.get("$PROJECT_URL/member")
                 .param("memberId", savedMember.id.toString())
                 .param("page", "2")
                 .param("size", "3")
@@ -162,11 +161,11 @@ internal class ProjectControllerTest {
     }
 
     @Test
-    @DisplayName("[200:POST]특정 사용자의 프로젝트 조회: 조회 결과 없음")
+    @DisplayName("[200:GET]특정 사용자의 프로젝트 조회: 조회 결과 없음")
     fun findAllByMemberId_EmptyProjectList() {
         // When
         val resultActions = mockMvc.perform(
-            MockMvcRequestBuilders.get(PROJECT_URL)
+            MockMvcRequestBuilders.get("$PROJECT_URL/member")
                 .param("memberId", "1")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -185,5 +184,35 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("hasNextPage").exists())
             .andExpect(jsonPath("hasPrevious").exists())
             .andExpect(jsonPath("$.embedded[*]").isEmpty)
+    }
+
+    @Test
+    @DisplayName("[200:GET]특정 프로젝트 조회")
+    fun findById() {
+        // Given
+        val savedMember = memberGenerator.savedUnCertifiedMember()
+        val savedProject = projectGenerator.savedProject(savedMember)
+
+        // When
+        val resultActions = mockMvc.perform(
+            MockMvcRequestBuilders.get("$PROJECT_URL/${savedProject.id}")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+        )
+
+        // Then
+        resultActions.andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("id").exists())
+            .andExpect(jsonPath("name").value(savedProject.name))
+            .andExpect(jsonPath("domain").value(savedProject.domain))
+            .andExpect(jsonPath("type").value(savedProject.type.name))
+            .andExpect(jsonPath("status").value(savedProject.status.name))
+            .andExpect(jsonPath("createdAt").isNotEmpty)
+            .andExpect(jsonPath("updatedAt").isNotEmpty)
+            .andExpect(jsonPath("creator.id").value(savedProject.member.id))
+            .andExpect(jsonPath("creator.email").value(savedProject.member.email))
+            .andExpect(jsonPath("creator.name").value(savedProject.member.name))
+            .andExpect(jsonPath("creator.nickname").value(savedProject.member.nickname))
     }
 }
