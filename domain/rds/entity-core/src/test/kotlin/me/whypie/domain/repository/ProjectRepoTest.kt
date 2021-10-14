@@ -1,7 +1,7 @@
 package me.whypie.domain.repository
 
 import me.whypie.config.DataJpaTestConfig
-import me.whypie.domain.assertions.AssertionProject.Companion.assertProject
+import me.whypie.domain.assertions.AssertionProject.Companion.assertEntity
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.generator.ProjectGenerator
 import me.whypie.domain.model.dto.request.PatchProjectRequest
@@ -44,7 +44,7 @@ class ProjectRepoTest(
         val expected = projectRepo.save(project)
 
         // Then
-        assertProject(expected = expected, given = project)
+        assertEntity(expected = expected, given = project)
     }
 
     @Test
@@ -73,14 +73,7 @@ class ProjectRepoTest(
         val expected = projectRepo.findById(savedProject.id).orElseThrow()
 
         // Then
-//        assertAll(
-//            { assertEquals(expected.id, savedProject.id) },
-//            { assertEquals(expected.name, savedProject.name) },
-//            { assertEquals(expected.domain, savedProject.domain) },
-//            { assertEquals(expected.type, savedProject.type) },
-//            { assertEquals(expected.status, savedProject.status) },
-//        )
-        assertProject(expected = expected, given = savedProject)
+        assertEntity(expected = expected, given = savedProject)
     }
 
     @Test
