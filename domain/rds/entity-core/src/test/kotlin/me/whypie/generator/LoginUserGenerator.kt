@@ -15,13 +15,12 @@ class LoginUserGenerator(
     private val memberGenerator: MemberGenerator,
 ) {
     fun generateLoginUser(): LoginUser {
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedUnCertifiedMember()
         return LoginUser(savedMember.email, savedMember.mapToSimpleGrantedAuthority())
     }
 
     companion object {
         fun generateLoginUserMock(member: Member): LoginUser {
-            val member = MemberGenerator.member()
             return LoginUser(member.email, member.mapToSimpleGrantedAuthority())
         }
     }

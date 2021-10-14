@@ -35,7 +35,7 @@ class ProjectRepoTest(
         val name = "whypie"
         val domain = "whypie.me"
         val type = ProjectType.BACK_OFFICE
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedUnCertifiedMember()
         val project = Project(name = name, domain = domain, type = type, member = savedMember)
 
         // When
@@ -56,7 +56,7 @@ class ProjectRepoTest(
     @DisplayName("프로젝트 객체 저장 실패: 중복된 name")
     fun save_Fail_Cause_duplicatedName() {
         // Given
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedUnCertifiedMember()
         val project = ProjectGenerator.generateProject(savedMember)
         val duplicatedProject = ProjectGenerator.generateProject(savedMember)
 
@@ -69,7 +69,7 @@ class ProjectRepoTest(
     @DisplayName("프로젝트 객체 조회: Id")
     fun findById() {
         // Given
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedUnCertifiedMember()
         val savedProject = projectRepo.save(projectGenerator.savedProject(savedMember))
         entityManger.flush()
         entityManger.clear()
@@ -105,7 +105,7 @@ class ProjectRepoTest(
     @DisplayName("특정 사용자의 프로젝트 목록 조회")
     fun findAllByMemberId() {
         // Given
-        val savedMember = memberGenerator.savedMember()
+        val savedMember = memberGenerator.savedUnCertifiedMember()
         val count = 10
         projectGenerator.generateProjectList(savedMember, count)
 
