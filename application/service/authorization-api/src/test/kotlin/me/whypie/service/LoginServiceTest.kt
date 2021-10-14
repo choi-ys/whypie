@@ -2,9 +2,9 @@ package me.whypie.service
 
 import me.whypie.generator.TokenGenerator
 import me.whypie.model.dto.request.LoginRequest
-import me.whypie.model.entity.member.Member
+import me.whypie.domain.model.entity.member.Member
 import me.whypie.model.vo.Principal
-import me.whypie.repository.MemberRepo
+import me.whypie.domain.repository.MemberRepo
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

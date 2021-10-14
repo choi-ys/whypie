@@ -3,7 +3,7 @@ package me.whypie.service
 import me.whypie.model.dto.request.CertificationVerifyRequest
 import me.whypie.model.entity.CertificationMailCache
 import me.whypie.repository.CertificationMailCacheRepo
-import me.whypie.repository.MemberRepo
+import me.whypie.domain.repository.MemberRepo
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder
  * @author : choi-ys
  * @date : 2021/10/05 11:51 오전
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = ["me.whypie"])
 class ProjectManagerApplication
 
 fun main(args: Array<String>) {

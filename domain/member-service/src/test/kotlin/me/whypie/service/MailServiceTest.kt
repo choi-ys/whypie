@@ -1,6 +1,6 @@
 package me.whypie.service
 
-import me.whypie.generator.MemberGenerator
+import me.whypie.domain.generator.MemberGenerator
 import org.junit.jupiter.api.Assertions.assertNotEquals
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

@@ -3,7 +3,7 @@ package me.whypie.service
 import me.whypie.model.dto.request.LoginRequest
 import me.whypie.model.dto.response.LoginResponse
 import me.whypie.model.vo.Principal
-import me.whypie.repository.MemberRepo
+import me.whypie.domain.repository.MemberRepo
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.component.TokenProvider
 import me.whypie.model.VerifyResult
-import me.whypie.model.entity.member.MemberRole
+import me.whypie.domain.model.entity.member.MemberRole
 import me.whypie.model.vo.ClaimKey
 import me.whypie.model.vo.Principal
 import me.whypie.model.vo.Token

@@ -1,10 +1,10 @@
 package me.whypie.service
 
-import me.whypie.generator.MemberGenerator
+import me.whypie.domain.generator.MemberGenerator
 import me.whypie.model.dto.request.CertificationVerifyRequest
 import me.whypie.model.entity.CertificationMailCache
 import me.whypie.repository.CertificationMailCacheRepo
-import me.whypie.repository.MemberRepo
+import me.whypie.domain.repository.MemberRepo
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith

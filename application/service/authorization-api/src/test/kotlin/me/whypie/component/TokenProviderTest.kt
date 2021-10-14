@@ -1,6 +1,6 @@
 package me.whypie.component
 
-import me.whypie.model.entity.member.MemberRole
+import me.whypie.domain.model.entity.member.MemberRole
 import me.whypie.model.vo.Principal
 import me.whypie.utils.LocalDateTimeUtils
 import org.junit.jupiter.api.Assertions.assertEquals

@@ -1,6 +1,6 @@
 package me.whypie.model.dto.response
 
-import me.whypie.model.entity.member.Member
+import me.whypie.domain.model.entity.member.Member
 import me.whypie.model.vo.Token
 
 /**

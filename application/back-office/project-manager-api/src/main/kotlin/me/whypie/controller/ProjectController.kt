@@ -2,9 +2,9 @@ package me.whypie.controller
 
 import me.whypie.model.CurrentUser
 import me.whypie.model.LoginUser
-import me.whypie.model.dto.request.CreateProjectRequest
-import me.whypie.service.ProjectService
-import me.whypie.utils.page.PageUtils
+import me.whypie.domain.model.dto.request.CreateProjectRequest
+import me.whypie.domain.service.ProjectService
+import me.whypie.domain.utils.page.PageUtils
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault

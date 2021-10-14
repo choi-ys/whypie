@@ -3,8 +3,7 @@ package me.whypie.controller
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.config.EnableMockMvc
 import me.whypie.error.ErrorCode
-import me.whypie.model.dto.request.SignupRequest
-import org.junit.jupiter.api.Assertions.*
+import me.whypie.domain.model.dto.request.SignupRequest
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

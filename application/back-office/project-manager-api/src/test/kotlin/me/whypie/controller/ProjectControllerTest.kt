@@ -2,9 +2,10 @@ package me.whypie.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.config.EnableMockMvc
-import me.whypie.generator.MemberGenerator
-import me.whypie.generator.ProjectGenerator
+import me.whypie.domain.generator.MemberGenerator
+import me.whypie.domain.generator.ProjectGenerator
 import me.whypie.generator.TokenGenerator
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

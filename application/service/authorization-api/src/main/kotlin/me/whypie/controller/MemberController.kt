@@ -1,7 +1,7 @@
 package me.whypie.controller
 
-import me.whypie.model.dto.request.SignupRequest
-import me.whypie.service.MemberService
+import me.whypie.domain.model.dto.request.SignupRequest
+import me.whypie.domain.service.MemberService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
