@@ -132,4 +132,33 @@ internal class ProjectServiceTest {
             { assertEquals(expected.embedded.size, generateMockCount) }
         )
     }
+
+    @Test
+    @DisplayName("특정 프로젝트 조회")
+    fun findById() {
+        // Given
+        val member = MemberGenerator.member()
+        val projectMock = ProjectGenerator.generateProject(member)
+        given(projectRepo.findById(anyLong()))
+            .willReturn(Optional.of(projectMock))
+
+        // When
+        val expected = projectService.findById(projectMock.id)
+
+        // Then
+        verify(projectRepo, times(1)).findById(anyLong())
+        assertAll(
+            { assertEquals(expected.id, projectMock.id) },
+            { assertEquals(expected.name, projectMock.name) },
+            { assertEquals(expected.domain, projectMock.domain) },
+            { assertEquals(expected.type, projectMock.type) },
+            { assertEquals(expected.status, projectMock.status) },
+            { assertEquals(expected.createdAt, projectMock.createdAt) },
+            { assertEquals(expected.updatedAt, projectMock.updatedAt) },
+            { assertEquals(expected.creator.id, projectMock.member.id) },
+            { assertEquals(expected.creator.email, projectMock.member.email) },
+            { assertEquals(expected.creator.name, projectMock.member.name) },
+            { assertEquals(expected.creator.nickname, projectMock.member.nickname) },
+        )
+    }
 }

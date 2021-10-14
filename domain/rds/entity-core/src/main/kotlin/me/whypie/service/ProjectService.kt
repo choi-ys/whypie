@@ -41,6 +41,13 @@ class ProjectService(
         return PageResponse.mapTo(page = page, embedded = mapTo(page))
     }
 
+    fun findById(id: Long): ProjectResponse {
+        val project = projectRepo.findById(id).orElseThrow() {
+            throw IllegalArgumentException("")
+        }
+        return ProjectResponse.mapTo(project)
+    }
+
     private fun mapTo(page: Page<Project>): MutableList<ProjectResponse> {
         return page.content.stream()
             .map { ProjectResponse.mapTo(it) }
