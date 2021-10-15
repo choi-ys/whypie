@@ -2,12 +2,11 @@ package me.whypie.controller
 
 import me.whypie.domain.model.dto.request.member.SignupRequest
 import me.whypie.domain.service.MemberService
+import me.whypie.model.CurrentUser
+import me.whypie.model.LoginUser
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 /**
@@ -27,4 +26,9 @@ class MemberController(
     @PostMapping
     fun signup(@Valid @RequestBody signupRequest: SignupRequest): ResponseEntity<*> =
         ResponseEntity.ok(memberService.signup(signupRequest))
+
+    @GetMapping("{id}")
+    fun findById(@PathVariable id: Long) =
+        ResponseEntity.ok(memberService.findById(id))
+
 }

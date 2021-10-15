@@ -31,6 +31,7 @@ class SecurityConfig(
 
             .authorizeRequests {
                 it
+                    .antMatchers(HttpMethod.GET, "/member/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/member", "/login", "/logout").permitAll()
                     .antMatchers(HttpMethod.POST, "/auth/token", "/auth/refresh").permitAll()
                     .antMatchers(HttpMethod.DELETE, "/auth/expire").permitAll()
