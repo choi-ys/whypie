@@ -1,0 +1,15 @@
+# Project 생성
+POST {{project-manager-api-host}}/project
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "name": "Cloud:M",
+  "domain": "cloudm.co.kr",
+  "type": "BACK_OFFICE"
+}
+> {%
+client.global.set("savedProjectId", response.body.id)
+%}
+
+###
