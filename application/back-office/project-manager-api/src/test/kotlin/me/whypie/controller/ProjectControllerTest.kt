@@ -1,6 +1,8 @@
 package me.whypie.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import me.whypie.assertions.AssertionException.Companion.assertHttpMessageNotReadable
+import me.whypie.assertions.AssertionException.Companion.assertMethodArgumentNotValid
 import me.whypie.config.EnableMockMvc
 import me.whypie.domain.assertions.AssertionProject.Companion.assertDetailResponse
 import me.whypie.domain.assertions.AssertionProject.Companion.assertPageResponse
@@ -85,6 +87,46 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("domain").value(domain))
             .andExpect(jsonPath("type").value(type.name))
             .andExpect(jsonPath("status").value(ProjectStatus.DISABLE.name))
+    }
+
+    @Test
+    @DisplayName("[400:POST]프로젝트 생성 실패:값이 없는 요청")
+    fun create_Fail_Cause_EmptyParam() {
+        // Given
+        val savedMember = memberGenerator.savedCertifiedMember()
+        val accessToken = tokenGenerator.accessToken(savedMember.email, savedMember.mapToSimpleGrantedAuthority())
+
+        // When
+        val resultActions = mockMvc.perform(
+            MockMvcRequestBuilders.post(PROJECT_URL)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, TokenGenerator.getBearerToken(accessToken))
+        )
+
+        // Then
+        assertHttpMessageNotReadable(resultActions)
+    }
+
+    @Test
+    @DisplayName("[400:POST]프로젝트 생성 실패:값이 잘못된 요청")
+    fun create_Fail_Cause_InvalidParam() {
+        // Given
+        val savedMember = memberGenerator.savedCertifiedMember()
+        val accessToken = tokenGenerator.accessToken(savedMember.email, savedMember.mapToSimpleGrantedAuthority())
+        val createProjectRequest = CreateProjectRequest("", "", enumValueOf("SERVICE"))
+
+        // When
+        val resultActions = mockMvc.perform(
+            MockMvcRequestBuilders.post(PROJECT_URL)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, TokenGenerator.getBearerToken(accessToken))
+                .content(objectMapper.writeValueAsString(createProjectRequest))
+        )
+
+        // Then
+        assertMethodArgumentNotValid(resultActions)
     }
 
     @Test
