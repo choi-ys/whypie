@@ -1,0 +1,57 @@
+# 회원가입
+POST {{authorization-api-local-host}}/member
+Content-Type: application/json
+
+{
+  "email": "project.log.062@gmail.com",
+  "password": "password",
+  "name": "choi-ys",
+  "nickname": "whypie"
+}
+> {%
+client.global.set("savedMemberId", response.body.id)
+%}
+
+###
+
+# 로그인
+POST {{authorization-api-local-host}}/login
+Content-Type: application/json
+
+{
+  "email": "project.log.062@gmail.com",
+  "password": "password"
+}
+> {%
+client.global.set("accessToken", response.body.token.accessToken)
+client.global.set("refreshToken", response.body.token.refreshToken)
+%}
+
+###
+
+# 로그아웃
+POST {{authorization-api-local-host}}/logout
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+# 토큰 갱신
+POST {{authorization-api-local-host}}/auth/refresh
+Content-Type: application/json
+Authorization: Bearer {{refreshToken}}
+
+###
+
+# 회원 조회
+GET {{authorization-api-local-host}}//member/{{savedMemberId}}
+Content-Type: application/json
+
+###
+
+# 내 정보 조회
+GET {{authorization-api-local-host}}//member/me
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
