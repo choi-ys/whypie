@@ -1,10 +1,11 @@
 package me.whypie.service
 
+import me.whypie.domain.generator.LoginUserGenerator
 import me.whypie.domain.generator.MemberGenerator
+import me.whypie.domain.repository.MemberRepo
 import me.whypie.model.dto.request.CertificationVerifyRequest
 import me.whypie.model.entity.CertificationMailCache
 import me.whypie.repository.CertificationMailCacheRepo
-import me.whypie.domain.repository.MemberRepo
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -40,7 +41,8 @@ internal class MemberCertificationVerifyServiceTest {
     internal fun sendCertificationMail() {
         // Given
         val member = MemberGenerator.member()
-        given(memberRepo.findById(anyLong()))
+        val loginUserMock = LoginUserGenerator.generateLoginUserMock(member)
+        given(memberRepo.findByEmail(anyString()))
             .willReturn(Optional.of(member))
 
         val certificationNumber = (100000..200000).random()
@@ -51,10 +53,10 @@ internal class MemberCertificationVerifyServiceTest {
             .will(AdditionalAnswers.returnsFirstArg<CertificationMailCache>())
 
         // When
-        memberCertificationVerifyService.sendCertificationMail(0L)
+        memberCertificationVerifyService.sendCertificationMail(loginUserMock)
 
         // Then
-        verify(memberRepo, times(1)).findById(anyLong())
+        verify(memberRepo, times(1)).findByEmail(anyString())
         verify(mailService, times(1)).sendSignupCertificationMail(member)
         verify(certificationMailRepo, times(1)).save(any(CertificationMailCache::class.java))
     }

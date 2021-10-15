@@ -4,6 +4,7 @@ import me.whypie.model.dto.request.CertificationVerifyRequest
 import me.whypie.model.entity.CertificationMailCache
 import me.whypie.repository.CertificationMailCacheRepo
 import me.whypie.domain.repository.MemberRepo
+import me.whypie.model.LoginUser
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,9 +21,9 @@ class MemberCertificationVerifyService(
     private val certificationMailRepo: CertificationMailCacheRepo,
 ) {
 
-    // TODO: 용석(2021-10-04) : 발송 여부에 따른 응답 처리
-    fun sendCertificationMail(id: Long) {
-        val member = memberRepo.findById(id).orElseThrow() {
+    // TODO: 용석(2021-10-04) : 발송 여부에 따른 응답 처리, 파라미터 변경 id -> loginUser
+    fun sendCertificationMail(loginUser: LoginUser) {
+        val member = memberRepo.findByEmail(loginUser.email).orElseThrow() {
             throw IllegalArgumentException("")
         }
 
