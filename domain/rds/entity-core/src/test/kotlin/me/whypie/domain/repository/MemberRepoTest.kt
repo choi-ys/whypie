@@ -1,7 +1,7 @@
 package me.whypie.domain.repository
 
-import me.whypie.domain.assertions.AssertionMember.Companion.assertMember
 import me.whypie.config.DataJpaTestConfig
+import me.whypie.domain.assertions.AssertionMember.Companion.assertMember
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.model.entity.member.Member
 import me.whypie.domain.model.entity.member.MemberRole
@@ -159,6 +159,36 @@ class MemberRepoTest(
         // When & Then
         assertThrows(NoSuchElementException::class.java) {
             memberRepo.findByEmail(invalidEmail).orElseThrow()
+        }.let {
+            assertTrue(it is RuntimeException)
+        }
+    }
+
+    @Test
+    @DisplayName("내 정보 조회")
+    fun findByIdAndEmail() {
+        // Given
+        val savedMember = memberRepo.save(MemberGenerator.member())
+        flushAndClear()
+
+        // When
+        val expected = memberRepo.findByIdAndEmail(savedMember.id, savedMember.email).orElseThrow()
+
+        // Then
+        assertMember(expected = expected, given = savedMember)
+    }
+
+    @Test
+    @DisplayName("내 정보 조회 실패:유효하지 않은 Email")
+    fun findByIdAndEmail_Fail_Cause_InvalidEmail() {
+        // Given
+        val savedMember = memberRepo.save(MemberGenerator.member())
+        val invalidEmail = "invalidEmail"
+        flushAndClear()
+
+        // When & Then
+        assertThrows(NoSuchElementException::class.java) {
+            memberRepo.findByIdAndEmail(savedMember.id, invalidEmail).orElseThrow()
         }.let {
             assertTrue(it is RuntimeException)
         }
