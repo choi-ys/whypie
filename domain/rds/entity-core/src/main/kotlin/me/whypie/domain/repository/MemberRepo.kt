@@ -11,5 +11,4 @@ import java.util.*
 interface MemberRepo : JpaRepository<Member, Long> {
     fun existsByEmail(email: String): Boolean
     fun findByEmail(email: String): Optional<Member>
-    fun findByIdAndEmail(id: Long, email: String): Optional<Member>
 }

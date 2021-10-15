@@ -35,8 +35,8 @@ class MemberService(
     fun findById(id: Long): MemberProfileResponse =
         MemberProfileResponse.mapTo(getMember(memberRepo.findById(id)))
 
-    fun me(id: Long, loginUser: LoginUser) =
-        Me.mapTo(getMember(memberRepo.findByIdAndEmail(id, loginUser.email)))
+    fun me(loginUser: LoginUser) =
+        Me.mapTo(getMember(memberRepo.findByEmail(loginUser.email)))
 
     private fun getMember(optionalMember: Optional<Member>): Member {
         return optionalMember.orElseThrow() {

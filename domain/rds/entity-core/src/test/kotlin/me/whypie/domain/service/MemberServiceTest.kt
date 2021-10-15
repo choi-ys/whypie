@@ -88,15 +88,15 @@ internal class MemberServiceTest {
     fun me() {
         // Given
         val memberMock = MemberGenerator.member()
-        given(memberRepo.findByIdAndEmail(anyLong(), anyString()))
+        given(memberRepo.findByEmail(anyString()))
             .willReturn(Optional.of(memberMock))
 
         val loginUserMock = LoginUserGenerator.generateLoginUserMock(memberMock)
 
         // When
-        val expected = memberService.me(memberMock.id, loginUserMock)
+        memberService.me(loginUserMock)
 
         // Then
-        verify(memberRepo, times(1)).findByIdAndEmail(anyLong(), anyString())
+        verify(memberRepo, times(1)).findByEmail(anyString())
     }
 }
