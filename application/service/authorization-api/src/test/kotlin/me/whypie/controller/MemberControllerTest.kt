@@ -167,4 +167,24 @@ internal class MemberControllerTest {
             .andExpect(jsonPath("createdAt").isNotEmpty)
             .andExpect(jsonPath("updatedAt").isNotEmpty)
     }
+
+    @Test
+    @DisplayName("[200:POST]회원 인증 메일 전송")
+    fun sendCertifyMail() {
+        // Given
+        val savedMember = memberGenerator.savedMember(MemberGenerator.member())
+        val issuedToken = tokenGenerator.issuedToken(savedMember)
+
+        // When
+        val resultActions = mockMvc.perform(
+            post("$MEMBER_URL/send/certification")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, TokenGenerator.getBearerToken(issuedToken.accessToken))
+        )
+
+        // Then
+        resultActions.andDo(print())
+            .andExpect(status().isOk)
+    }
 }

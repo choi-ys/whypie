@@ -4,6 +4,7 @@ import me.whypie.domain.model.dto.request.member.SignupRequest
 import me.whypie.domain.service.MemberService
 import me.whypie.model.CurrentUser
 import me.whypie.model.LoginUser
+import me.whypie.service.MemberCertificationVerifyService
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -21,6 +22,7 @@ import javax.validation.Valid
 )
 class MemberController(
     private val memberService: MemberService,
+    private val memberCertificationVerifyService: MemberCertificationVerifyService
 ) {
 
     @PostMapping
@@ -34,4 +36,9 @@ class MemberController(
     @GetMapping("me")
     fun me(@CurrentUser loginUser: LoginUser)  =
         ResponseEntity.ok(memberService.me(loginUser))
+
+    @PostMapping("send/certification")
+    fun sendCertify(@CurrentUser loginUser: LoginUser){
+        memberCertificationVerifyService.sendCertificationMail(loginUser)
+    }
 }
