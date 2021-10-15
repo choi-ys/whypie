@@ -1,6 +1,7 @@
 package me.whypie.config
 
 import me.whypie.component.TokenVerifier
+import me.whypie.domain.model.entity.member.MemberRole
 import me.whypie.filter.JwtConfigurer
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -32,6 +33,7 @@ class SecurityConfig(
             .authorizeRequests {
                 it
                     .antMatchers(HttpMethod.GET, "/member/**").permitAll()
+                    .antMatchers(HttpMethod.GET, "/member/me").hasRole(MemberRole.CERTIFIED_MEMBER.name)
                     .antMatchers(HttpMethod.POST, "/member", "/login", "/logout").permitAll()
                     .antMatchers(HttpMethod.POST, "/auth/token", "/auth/refresh").permitAll()
                     .antMatchers(HttpMethod.DELETE, "/auth/expire").permitAll()

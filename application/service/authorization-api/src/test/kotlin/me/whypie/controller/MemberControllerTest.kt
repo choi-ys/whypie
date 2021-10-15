@@ -5,11 +5,13 @@ import me.whypie.config.EnableMockMvc
 import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.model.dto.request.member.SignupRequest
 import me.whypie.error.ErrorCode
+import me.whypie.generator.TokenGenerator
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
+import org.springframework.http.HttpHeaders.AUTHORIZATION
 import org.springframework.http.MediaType
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
@@ -29,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional
 @ActiveProfiles("test")
 @DisplayName("Application:API:Member")
 @Transactional
-@Import(MemberGenerator::class)
+@Import(MemberGenerator::class, TokenGenerator::class)
 internal class MemberControllerTest {
 
     @Autowired
@@ -40,6 +42,9 @@ internal class MemberControllerTest {
 
     @Autowired
     lateinit var memberGenerator: MemberGenerator
+
+    @Autowired
+    lateinit var tokenGenerator: TokenGenerator
 
     final val MEMBER_URL = "/member"
 
@@ -135,5 +140,31 @@ internal class MemberControllerTest {
             .andExpect(jsonPath("email").value(savedMember.email))
             .andExpect(jsonPath("name").value(savedMember.name))
             .andExpect(jsonPath("nickname").value(savedMember.nickname))
+    }
+
+    @Test
+    @DisplayName("[200:GET]내 정보 조회")
+    fun me() {
+        // Given
+        val savedMember = memberGenerator.savedMember(MemberGenerator.member())
+        val issuedToken = tokenGenerator.issuedToken(savedMember)
+
+        // When
+        val resultActions = mockMvc.perform(
+            get("$MEMBER_URL/me")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, TokenGenerator.getBearerToken(issuedToken.accessToken))
+        )
+
+        // Then
+        resultActions.andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("id").value(savedMember.id))
+            .andExpect(jsonPath("email").value(savedMember.email))
+            .andExpect(jsonPath("name").value(savedMember.name))
+            .andExpect(jsonPath("nickname").value(savedMember.nickname))
+            .andExpect(jsonPath("createdAt").isNotEmpty)
+            .andExpect(jsonPath("updatedAt").isNotEmpty)
     }
 }

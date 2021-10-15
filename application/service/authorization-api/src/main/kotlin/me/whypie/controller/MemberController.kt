@@ -31,4 +31,7 @@ class MemberController(
     fun findById(@PathVariable id: Long) =
         ResponseEntity.ok(memberService.findById(id))
 
+    @GetMapping("me")
+    fun me(@CurrentUser loginUser: LoginUser)  =
+        ResponseEntity.ok(memberService.me(loginUser))
 }
