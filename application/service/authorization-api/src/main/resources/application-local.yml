@@ -1,11 +1,25 @@
 server:
-  port: 9002
+  port: 9001
 
 spring:
   # [JPA]
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+  # [Mail]
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: project.log.062@gmail.com
+    password: cqlsjvvodubdbavo
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: true
 
 jwt:
   signature: local-signature-key
