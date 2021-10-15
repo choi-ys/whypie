@@ -1,5 +1,7 @@
 package me.whypie.domain.service
 
+import me.whypie.domain.generator.LoginUserGenerator
+import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.model.dto.request.member.SignupRequest
 import me.whypie.domain.model.entity.member.Member
 import me.whypie.domain.repository.MemberRepo
@@ -14,6 +16,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.security.crypto.password.PasswordEncoder
+import java.util.*
 
 /**
  * @author : choi-ys
@@ -58,5 +61,42 @@ internal class MemberServiceTest {
             { assertEquals(expected.name, name) },
             { assertEquals(expected.nickname, nickname) },
         )
+    }
+
+    @Test
+    @DisplayName("특정 회원 조회")
+    fun findById() {
+        // Given
+        val memberMock = MemberGenerator.member()
+        given(memberRepo.findById(anyLong()))
+            .willReturn(Optional.of(memberMock))
+
+        // When
+        val expected = memberService.findById(memberMock.id)
+
+        // Then
+        verify(memberRepo, times(1)).findById(anyLong())
+        assertAll(
+            { assertEquals(expected.email, memberMock.email) },
+            { assertEquals(expected.name, memberMock.name) },
+            { assertEquals(expected.nickname, memberMock.nickname) },
+        )
+    }
+
+    @Test
+    @DisplayName("내 정보 조회")
+    fun me() {
+        // Given
+        val memberMock = MemberGenerator.member()
+        given(memberRepo.findByIdAndEmail(anyLong(), anyString()))
+            .willReturn(Optional.of(memberMock))
+
+        val loginUserMock = LoginUserGenerator.generateLoginUserMock(memberMock)
+
+        // When
+        val expected = memberService.me(memberMock.id, loginUserMock)
+
+        // Then
+        verify(memberRepo, times(1)).findByIdAndEmail(anyLong(), anyString())
     }
 }
