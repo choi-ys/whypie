@@ -71,16 +71,18 @@ internal class MemberCertificationVerifyServiceTest {
         given(certificationMailRepo.findById(anyString()))
             .willReturn(Optional.of(certificationMailCache))
 
-        val member = MemberGenerator.member()
-        given(memberRepo.findById(anyLong())).willReturn(Optional.of(member))
+        val memberMock = MemberGenerator.member()
+        val loginUserMock = LoginUserGenerator.generateLoginUserMock(memberMock)
+        given(memberRepo.findByEmail(anyString()))
+            .willReturn(Optional.of(memberMock))
 
-        val certificationVerifyRequest = CertificationVerifyRequest(0L, email, certificateSerialNumber)
+        val certificationVerifyRequest = CertificationVerifyRequest(certificateSerialNumber)
 
         // When
-        memberCertificationVerifyService.verifyCertification(certificationVerifyRequest)
+        memberCertificationVerifyService.verifyCertification(certificationVerifyRequest, loginUserMock)
 
         // Then
         verify(certificationMailRepo, times(1)).findById(anyString())
-        verify(memberRepo, times(1)).findById(anyLong())
+        verify(memberRepo, times(1)).findByEmail(anyString())
     }
 }
