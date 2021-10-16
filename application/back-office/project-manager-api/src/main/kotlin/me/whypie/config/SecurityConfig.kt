@@ -5,6 +5,7 @@ import me.whypie.domain.model.entity.member.MemberRole
 import me.whypie.filter.JwtConfigurer
 import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -37,5 +38,10 @@ class SecurityConfig(
                     .antMatchers(HttpMethod.PATCH, "/project/**").hasRole(MemberRole.CERTIFIED_MEMBER.name)
                     .anyRequest().authenticated()
             }
+    }
+
+    // Spring REST Docs 설정 추가로 인한 Spring Boot static resource의 요청 허용 설정
+    override fun configure(web: WebSecurity) {
+        web.ignoring().mvcMatchers("/docs/index.html")
     }
 }
