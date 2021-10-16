@@ -1,7 +1,7 @@
 # Project 생성
 POST {{project-manager-api-host}}/project
 Content-Type: application/json
-Authorization: {{accessToken}}
+Authorization: Bearer {{accessToken}}
 
 {
   "name": "Cloud:M",
@@ -9,7 +9,44 @@ Authorization: {{accessToken}}
   "type": "BACK_OFFICE"
 }
 > {%
+client.log(client.global.get("accessToken"));
 client.global.set("savedProjectId", response.body.id)
 %}
+
+###
+
+# Project 상세 조회
+GET {{project-manager-api-host}}/{{savedProjectId}}
+Content-Type: application/json
+
+###
+
+# 특정 회원의 Project 목록 조회
+GET {{project-manager-api-host}}/project/member?memberId=1&page=0&size=10&sort=createdAt&direction=DESC
+Content-Type: application/json
+
+###
+
+# Project 상태 변경
+PATCH {{project-manager-api-host}}/project/status/{{savedProjectId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "status": "ENABLE"
+}
+
+###
+
+# Project 정보 변경
+PATCH {{project-manager-api-host}}/project/{{savedProjectId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "updated name",
+  "domain": "update.domain.com",
+  "type": "SERVICE"
+}
 
 ###
