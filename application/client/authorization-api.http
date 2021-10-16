@@ -25,6 +25,7 @@ Content-Type: application/json
 > {%
 client.global.set("accessToken", response.body.token.accessToken)
 client.global.set("refreshToken", response.body.token.refreshToken)
+client.log(client.global.get("accessToken"));
 %}
 
 ###
@@ -41,6 +42,12 @@ POST {{authorization-api-local-host}}/auth/refresh
 Content-Type: application/json
 Authorization: Bearer {{refreshToken}}
 
+> {%
+client.global.set("accessToken", response.body.token.accessToken)
+client.global.set("refreshToken", response.body.token.refreshToken)
+client.log(client.global.get("accessToken"));
+%}
+
 ###
 
 # 회원 조회
@@ -53,5 +60,23 @@ Content-Type: application/json
 GET {{authorization-api-local-host}}//member/me
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
+
+###
+
+# 회원 인증 메일 전송
+POST {{authorization-api-local-host}}/member/send/certification
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+# 회원 인증 번호 검증
+POST {{authorization-api-local-host}}/member/verify/certification
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "certificationNumber": "133007"
+}
 
 ###
