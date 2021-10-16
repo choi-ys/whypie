@@ -1,5 +1,6 @@
 package me.whypie.utils.generator.docs
 
+import me.whypie.config.docs.RestDocsConfiguration.Companion.field
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler
 import org.springframework.restdocs.payload.PayloadDocumentation.*
 
@@ -12,8 +13,8 @@ class ProjectDocumentGenerator {
         fun generateCreateProjectDocument(restDocsConfiguration: RestDocumentationResultHandler): RestDocumentationResultHandler {
             return restDocsConfiguration.document(
                 requestFields(
-                    fieldWithPath("name").description("프로젝트 이름"),
-                    fieldWithPath("domain").description("프로젝트 도메인"),
+                    fieldWithPath("name").description("프로젝트 이름").attributes(field("length", "1~10")),
+                    fieldWithPath("domain").description("프로젝트 도메인").attributes(field("length", "5~30")),
                     fieldWithPath("type").description("프로젝트 타입")
                 ),
                 responseFields(
