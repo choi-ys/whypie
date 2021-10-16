@@ -14,9 +14,11 @@ import me.whypie.domain.model.dto.request.project.PatchProjectStatusRequest
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.model.entity.project.ProjectType
 import me.whypie.generator.TokenGenerator
+import me.whypie.utils.generator.docs.ProjectDocumentGenerator.Companion.generateCreateProjectDocument
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.Import
 import org.springframework.data.domain.Sort
@@ -39,6 +41,7 @@ import org.springframework.transaction.annotation.Transactional
 @ActiveProfiles("test")
 @DisplayName("Application:API:Project")
 @Transactional
+@AutoConfigureRestDocs
 @Import(MemberGenerator::class, TokenGenerator::class, ProjectGenerator::class)
 internal class ProjectControllerTest {
 
@@ -91,6 +94,7 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("creator.email").value(savedMember.email))
             .andExpect(jsonPath("creator.name").value(savedMember.name))
             .andExpect(jsonPath("creator.nickname").value(savedMember.nickname))
+            .andDo(generateCreateProjectDocument())
     }
 
     @Test
@@ -268,7 +272,7 @@ internal class ProjectControllerTest {
         val savedProject = projectGenerator.savedProject(savedMember)
         val accessToken = tokenGenerator.accessToken(savedMember.email, savedMember.mapToSimpleGrantedAuthority())
 
-        val updateRequestName = "updated name";
+        val updateRequestName = "updated name"
         val updateRequestDomain = "update.domain.com"
         val updateRequestType = ProjectType.SERVICE
         val patchProjectRequest = PatchProjectRequest(updateRequestName, updateRequestDomain, updateRequestType)
