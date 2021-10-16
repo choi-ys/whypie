@@ -1,12 +1,48 @@
+plugins {
+    id 'org.asciidoctor.jvm.convert' version '3.3.2'
+}
+
+configurations {
+    asciidoctorExtensions
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_11
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
 dependencies {
     api project(":domain-rds-entity-core")
-    testApi project(":domain-rds-entity-core").sourceSets.test.output
-
     api project(":in-system-web-core-exception-handler")
-    testApi project(":in-system-web-core-exception-handler").sourceSets.test.output
-
     api project(":in-system-web-core-authorization-filter")
-    testApi project(":in-system-web-core-authorization-filter").sourceSets.test.output
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    testApi project(":domain-rds-entity-core").sourceSets.test.output
+    testApi project(":in-system-web-core-exception-handler").sourceSets.test.output
+    testApi project(":in-system-web-core-authorization-filter").sourceSets.test.output
+
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
+    asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")
+}
+
+asciidoctor {
+    configurations 'asciidoctorExtensions'
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from "${asciidoctor.outputDir}"
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
 }
