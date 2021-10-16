@@ -87,6 +87,10 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("domain").value(domain))
             .andExpect(jsonPath("type").value(type.name))
             .andExpect(jsonPath("status").value(ProjectStatus.DISABLE.name))
+            .andExpect(jsonPath("creator.id").value(savedMember.id))
+            .andExpect(jsonPath("creator.email").value(savedMember.email))
+            .andExpect(jsonPath("creator.name").value(savedMember.name))
+            .andExpect(jsonPath("creator.nickname").value(savedMember.nickname))
     }
 
     @Test
