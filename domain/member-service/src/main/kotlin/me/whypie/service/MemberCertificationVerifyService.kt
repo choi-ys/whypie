@@ -21,7 +21,7 @@ class MemberCertificationVerifyService(
     private val certificationMailRepo: CertificationMailCacheRepo,
 ) {
 
-    // TODO: 용석(2021-10-04) : 발송 여부에 따른 응답 처리, 파라미터 변경 id -> loginUser
+    // TODO: 용석(2021-10-04) : 발송 여부에 따른 응답 처리(발송대상, 발송시간)
     fun sendCertificationMail(loginUser: LoginUser) {
         val member = memberRepo.findByEmail(loginUser.email).orElseThrow() {
             throw IllegalArgumentException("")
@@ -37,6 +37,7 @@ class MemberCertificationVerifyService(
         )
     }
 
+    // TODO: 용석(2021-10-16) : 인증 여부에 따른 응답 처리(인증 실패 사유)
     @Transactional
     fun verifyCertification(certificationVerifyRequest: CertificationVerifyRequest, loginUser: LoginUser) {
         val member = memberRepo.findByEmail(loginUser.email).orElseThrow() {
