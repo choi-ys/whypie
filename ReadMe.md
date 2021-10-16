@@ -48,6 +48,8 @@ Project - [WhyPie]
 
 ## TODO
 
+> Spring REST Docs를 이용한 TC 기반의 API Docs 생성
+>
 > spring cloud config + private VCS를 이용한 설정 중앙화
 > 
 > sleuth + zipkin을 이용한 log transaction 처리
