@@ -53,3 +53,7 @@ Project - [WhyPie]
 > sleuth + zipkin을 이용한 log transaction 처리
 > 
 > eureka & spring boot admin을 이용한 client discovery 적용
+>
+> CI를 위한 Jenkinsfile 작성
+>
+> Docker 이미지 빌드를 위한 Dockerfile 작성
