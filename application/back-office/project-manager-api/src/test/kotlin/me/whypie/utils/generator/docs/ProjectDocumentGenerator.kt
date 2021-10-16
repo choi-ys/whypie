@@ -30,5 +30,22 @@ class ProjectDocumentGenerator {
                 )
             )
         }
+
+        fun generateInvalidCreateProjectDocument(restDocsConfiguration: RestDocumentationResultHandler): RestDocumentationResultHandler {
+            return restDocsConfiguration.document(
+                responseFields(
+                    fieldWithPath("timestamp").description("에러 발생 일시"),
+                    fieldWithPath("code").description("에러 분류 코드"),
+                    fieldWithPath("message").description("에러 메세지"),
+                    fieldWithPath("method").description("요청 Http Method"),
+                    fieldWithPath("path").description("요청 URI"),
+                    fieldWithPath("errorDetails[0].objectName").description("에러 객체 명"),
+                    fieldWithPath("errorDetails[0].field").description("에러 필드"),
+                    fieldWithPath("errorDetails[0].code").description("에러 상세 코드"),
+                    fieldWithPath("errorDetails[0].rejectMessage").description("에러 메세지"),
+                    fieldWithPath("errorDetails[0].rejectedValue").description("에러 요청 값"),
+                )
+            )
+        }
     }
 }
