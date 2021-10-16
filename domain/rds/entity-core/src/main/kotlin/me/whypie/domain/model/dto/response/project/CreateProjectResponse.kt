@@ -1,5 +1,6 @@
 package me.whypie.domain.model.dto.response.project
 
+import me.whypie.domain.model.dto.response.member.MemberProfileResponse
 import me.whypie.domain.model.entity.project.Project
 import me.whypie.domain.model.entity.project.ProjectStatus
 import me.whypie.domain.model.entity.project.ProjectType
@@ -14,6 +15,7 @@ data class CreateProjectResponse(
     val domain: String,
     val type: ProjectType,
     val status: ProjectStatus,
+    val creator: MemberProfileResponse,
 ) {
     companion object {
         fun mapTo(project: Project): CreateProjectResponse {
@@ -22,7 +24,8 @@ data class CreateProjectResponse(
                 name = project.name,
                 domain = project.domain,
                 type = project.type,
-                status = project.status
+                status = project.status,
+                creator = MemberProfileResponse.mapTo(project.member)
             )
         }
     }
