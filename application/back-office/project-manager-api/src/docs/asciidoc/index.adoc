@@ -177,37 +177,23 @@ API 호출 시 응답 메세지 구조에 대한 정보를 제공합니다.
 TIP: ** 목록 API 호출 시 응답 내 페이징 처리에 대한 구조 정보를 제공합니다.
 **
 
-----
-{
-  "totalPages": 조회된 전체 페이지의 수,
-  "totalElementCount": 죄회된 전체 컨텐츠 개수,
-  "currentPage": 현재 페이지 번호,
-  "currentElementCount": 현제 페이제의 컨텐츠 개수,
-  "perPageNumber": 조회 페이지당 컨텐츠 개수,
-  "firstPage": 첫번째 페이지 여부,
-  "lastPage": 마지막 페이지 여부,
-  "hasNextPage": 다음 페이지 존재 여부,
-  "hasPrevious": 이전 페이지 존재 여부,
-  "embedded": 컨텐츠 정보 배열
-}
-----
+operation::project-controller-test/find-all-by-member-id_-empty-project-list/[snippets='response-fields,http-response']
 
 ---
 
 [[common-response-errors]]
 === ** Error **
 
-IMPORTANT: ** API 호출 시 에러가 발생했을 때 (상태 코드 >= 400), 응답 본문에 해당 문제를 기술한 JSON 객채를 반환합니다.
+IMPORTANT: ** API 호출 시 에러가 발생한 경우(상태 코드 >= 400), 응답 본문에 해당 문제를 기술한 JSON 객채를 반환합니다.
 에러 객체는 다음과 같은 구조로 구성되어 있습니다.
 **
 
 include::{snippets}/project-controller-test/create_-fail_-cause_-invalid-param/response-fields.adoc[]
 
-WARNING: ** 예를 들어, 잘못된 요청으로 프로젝트를 생성하려고 했을 때, 다음과 같은 `400 Bad Request` 응답을 반환합니다.
+WARNING: ** 예를 들어, 잘못된 요청으로 프로젝트를 생성하려고 했을 때, 다음과 같은 `*400 Bad Request*` 응답을 반환합니다.
 **
 
 include::{snippets}/project-controller-test/create_-fail_-cause_-invalid-param/http-response.adoc[]
-
 
 [[resources]]
 = ** API **

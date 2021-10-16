@@ -47,5 +47,22 @@ class ProjectDocumentGenerator {
                 )
             )
         }
+
+        fun generateProjectPaginationDocument(restDocsConfiguration: RestDocumentationResultHandler): RestDocumentationResultHandler {
+            return restDocsConfiguration.document(
+                responseFields(
+                    fieldWithPath("totalPages").description("조회된 전체 페이지의 수"),
+                    fieldWithPath("totalElementCount").description("조회된 전체 컨텐츠 개수"),
+                    fieldWithPath("currentPage").description("현재 페이지 번호"),
+                    fieldWithPath("currentElementCount").description("현재 페이제의 컨텐츠 개수"),
+                    fieldWithPath("perPageNumber").description("조회 페이지당 컨텐츠 개수"),
+                    fieldWithPath("firstPage").description("첫번째 페이지 여부"),
+                    fieldWithPath("lastPage").description("마지막 페이지 여부"),
+                    fieldWithPath("hasNextPage").description("다음 페이지 존재 여부"),
+                    fieldWithPath("hasPrevious").description("이전 페이지 존재 여부"),
+                    fieldWithPath("embedded[*]").description("컨텐츠 정보"),
+                )
+            )
+        }
     }
 }

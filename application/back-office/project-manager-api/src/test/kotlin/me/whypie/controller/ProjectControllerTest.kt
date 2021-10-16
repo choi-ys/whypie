@@ -17,6 +17,7 @@ import me.whypie.domain.model.entity.project.ProjectType
 import me.whypie.generator.TokenGenerator
 import me.whypie.utils.generator.docs.ProjectDocumentGenerator.Companion.generateCreateProjectDocument
 import me.whypie.utils.generator.docs.ProjectDocumentGenerator.Companion.generateInvalidCreateProjectDocument
+import me.whypie.utils.generator.docs.ProjectDocumentGenerator.Companion.generateProjectPaginationDocument
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -213,6 +214,7 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("hasNextPage").exists())
             .andExpect(jsonPath("hasPrevious").exists())
             .andExpect(jsonPath("$.embedded[*]").isEmpty)
+            .andDo(generateProjectPaginationDocument(restDocsConfiguration.restDocumentationResultHandler()))
     }
 
     @Test
