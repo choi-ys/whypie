@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class MemberCertificationVerifyService(
     private val memberRepo: MemberRepo,
     private val mailService: MailService,
-    private val certificationMailRepo: CertificationMailCacheRepo,
+    private val certificationMailCacheRepo: CertificationMailCacheRepo,
 ) {
 
     // TODO: 용석(2021-10-04) : 발송 여부에 따른 응답 처리(발송대상, 발송시간)
@@ -29,7 +29,7 @@ class MemberCertificationVerifyService(
 
         val certificationNumber = mailService.sendSignupCertificationMail(member)
 
-        certificationMailRepo.save(
+        certificationMailCacheRepo.save(
             CertificationMailCache(
                 email = member.email,
                 certificationNumber = certificationNumber
@@ -43,7 +43,7 @@ class MemberCertificationVerifyService(
         val member = memberRepo.findByEmail(loginUser.email).orElseThrow() {
             throw IllegalArgumentException("")
         }
-        certificationMailRepo.findById(member.email).orElseThrow() {
+        certificationMailCacheRepo.findById(member.email).orElseThrow() {
             throw IllegalArgumentException("") // 인증 번호 발송 내역이 Redis에 존재 하지 않는 경우
         }.let {
             if (it.certificationNumber != certificationVerifyRequest.certificationNumber) { // 발송된 인증번호와 입력된 인증번호가 다른 경우
