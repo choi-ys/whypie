@@ -42,6 +42,6 @@ class RestDocsConfiguration {
         val STG_HOST: String = "stg-project-api.$BASE_HOST"
         val PRD_HOST: String = "prd-project-api.$BASE_HOST"
 
-        fun field(key: String, value: String): Attribute = Attribute(key, value)
+        fun format(value: String): Attribute = Attribute("format", value)
     }
 }
