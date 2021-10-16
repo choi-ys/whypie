@@ -34,7 +34,7 @@ class MemberGenerator(
     }
 
     companion object {
-        var email = "project.log.062@gamil.com"
+        var email = "project.log.062@gmail.com"
         var password = "password"
         var name = "최용석"
         var nickname = "noel"
