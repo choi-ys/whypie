@@ -6,6 +6,11 @@ import me.whypie.domain.generator.MemberGenerator
 import me.whypie.domain.model.dto.request.member.SignupRequest
 import me.whypie.error.ErrorCode
 import me.whypie.generator.TokenGenerator
+import me.whypie.model.LoginUser
+import me.whypie.model.dto.request.CertificationVerifyRequest
+import me.whypie.repository.CertificationMailCacheRepo
+import me.whypie.service.MemberCertificationVerifyService
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,6 +50,12 @@ internal class MemberControllerTest {
 
     @Autowired
     lateinit var tokenGenerator: TokenGenerator
+
+    @Autowired
+    lateinit var memberCertificationVerifyService: MemberCertificationVerifyService
+
+    @Autowired
+    lateinit var certificationMailCacheRepo: CertificationMailCacheRepo
 
     final val MEMBER_URL = "/member"
 
@@ -170,6 +181,7 @@ internal class MemberControllerTest {
 
     @Test
     @DisplayName("[200:POST]회원 인증 메일 전송")
+    @Disabled
     fun sendCertifyMail() {
         // Given
         val savedMember = memberGenerator.savedMember(MemberGenerator.member())
@@ -181,6 +193,34 @@ internal class MemberControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .header(AUTHORIZATION, TokenGenerator.getBearerToken(issuedToken.accessToken))
+        )
+
+        // Then
+        resultActions.andDo(print())
+            .andExpect(status().isOk)
+    }
+
+    @Test
+    @DisplayName("[200:POST]회원 인증 번호 검증")
+    fun verifyCertificationNumber() {
+        // Given
+        val savedMember = memberGenerator.savedMember(MemberGenerator.member())
+        val issuedToken = tokenGenerator.issuedToken(savedMember)
+        memberCertificationVerifyService.sendCertificationMail(
+            LoginUser(
+                savedMember.email,
+                savedMember.mapToSimpleGrantedAuthority())
+        )
+        val certificationMailCache = certificationMailCacheRepo.findById(savedMember.email).orElseThrow()
+        val certificationVerifyRequest = CertificationVerifyRequest(certificationMailCache.certificationNumber)
+
+        // When
+        val resultActions = mockMvc.perform(
+            post("$MEMBER_URL/verify/certification")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(AUTHORIZATION, TokenGenerator.getBearerToken(issuedToken.accessToken))
+                .content(objectMapper.writeValueAsString(certificationVerifyRequest))
         )
 
         // Then
