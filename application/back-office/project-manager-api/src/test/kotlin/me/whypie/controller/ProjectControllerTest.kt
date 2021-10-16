@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import me.whypie.assertions.AssertionException.Companion.assertHttpMessageNotReadable
 import me.whypie.assertions.AssertionException.Companion.assertMethodArgumentNotValid
 import me.whypie.config.EnableMockMvc
+import me.whypie.config.docs.RestDocsConfiguration
 import me.whypie.domain.assertions.AssertionProject.Companion.assertDetailResponse
 import me.whypie.domain.assertions.AssertionProject.Companion.assertPageResponse
 import me.whypie.domain.generator.MemberGenerator
@@ -42,7 +43,7 @@ import org.springframework.transaction.annotation.Transactional
 @DisplayName("Application:API:Project")
 @Transactional
 @AutoConfigureRestDocs
-@Import(MemberGenerator::class, TokenGenerator::class, ProjectGenerator::class)
+@Import(MemberGenerator::class, TokenGenerator::class, ProjectGenerator::class, RestDocsConfiguration::class)
 internal class ProjectControllerTest {
 
     @Autowired
@@ -59,6 +60,9 @@ internal class ProjectControllerTest {
 
     @Autowired
     lateinit var projectGenerator: ProjectGenerator
+
+    @Autowired
+    lateinit var restDocsConfiguration: RestDocsConfiguration
 
     private val PROJECT_URL = "/project"
 
@@ -94,7 +98,7 @@ internal class ProjectControllerTest {
             .andExpect(jsonPath("creator.email").value(savedMember.email))
             .andExpect(jsonPath("creator.name").value(savedMember.name))
             .andExpect(jsonPath("creator.nickname").value(savedMember.nickname))
-            .andDo(generateCreateProjectDocument())
+            .andDo(generateCreateProjectDocument(restDocsConfiguration.restDocumentationResultHandler()))
     }
 
     @Test
