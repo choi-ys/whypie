@@ -1,8 +1,12 @@
 package me.whypie.utils.generator.docs
 
 import me.whypie.config.docs.RestDocsConfiguration.Companion.format
+import me.whypie.domain.model.entity.project.ProjectType
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler
 import org.springframework.restdocs.payload.PayloadDocumentation.*
+import java.util.*
+import java.util.stream.Collectors
+
 
 /**
  * @author : choi-ys
@@ -15,7 +19,7 @@ class ProjectDocumentGenerator {
                 requestFields(
                     fieldWithPath("name").description("프로젝트 이름").attributes(format("1~10")),
                     fieldWithPath("domain").description("프로젝트 도메인").attributes(format("5~30")),
-                    fieldWithPath("type").description("프로젝트 타입")
+                    fieldWithPath("type").description("프로젝트 타입").attributes(format(projectTypeCode()))
                 ),
                 responseFields(
                     fieldWithPath("id").description("프로젝트 ID"),
@@ -30,6 +34,11 @@ class ProjectDocumentGenerator {
                 )
             )
         }
+
+        private fun projectTypeCode() =
+            Arrays.stream(ProjectType.values())
+                .map { type -> java.lang.String.format("%s: %s", type.name, type.description) }
+                .collect(Collectors.joining("\n"))
 
         fun generateInvalidCreateProjectDocument(restDocsConfiguration: RestDocumentationResultHandler): RestDocumentationResultHandler {
             return restDocsConfiguration.document(
