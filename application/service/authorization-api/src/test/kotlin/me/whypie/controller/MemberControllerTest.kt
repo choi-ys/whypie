@@ -202,6 +202,7 @@ internal class MemberControllerTest {
 
     @Test
     @DisplayName("[200:POST]회원 인증 번호 검증")
+    @Disabled
     fun verifyCertificationNumber() {
         // Given
         val savedMember = memberGenerator.savedMember(MemberGenerator.member())
