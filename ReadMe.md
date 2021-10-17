@@ -10,6 +10,8 @@ Project - [WhyPie]
  - Goals
    - Generate API Docs based on TC: https://062.notion.site/Spring-REST-Docs-API-19b0c3953ee54135afbd701be61413cf
  - Diagrams
+   - ![whypie_architecture](https://user-images.githubusercontent.com/14158670/137644112-f8dc6b20-c1bb-4fbc-98e9-9700ab9f5225.png)
+
  - Issue tracking
  - Git Flow : https://062.notion.site/Git-Branch-Flow-Chart-f244a100e55e47bd85b31f6d527912aa
 
