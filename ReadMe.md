@@ -1,8 +1,16 @@
-Project - [WhyPie]
+Project - [WhyPie]소개 영어로
 ===
 
 ## Coming soon Deploy ..
  - Started project with 2021-10-02
+
+## About
+ - Services
+ - Features
+ - Goals
+ - Diagrams
+ - Issue tracking
+ - Git Flow : https://062.notion.site/Git-Branch-Flow-Chart-f244a100e55e47bd85b31f6d527912aa
 
 ## Development environment
 
@@ -58,7 +66,9 @@ Project - [WhyPie]
 >```
 > spring-cloud-config server + github private(ssh) connection
 >  - AS-IS : Native (file-based configurations)
->  - TO-BE : GitHub Private SSH connection (remote repository configurations)
+>  - TO-BE : 
+>    - GitHub Private SSH connection (remote repository configurations)
+>    - encrypt configurations to spring-boot-jasypt  
 >    - OR : spring-cloud-vault 고려
 > ```
 >
