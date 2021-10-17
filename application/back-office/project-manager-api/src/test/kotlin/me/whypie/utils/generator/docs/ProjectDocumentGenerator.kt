@@ -48,11 +48,12 @@ class ProjectDocumentGenerator {
                     fieldWithPath("message").description("에러 메세지"),
                     fieldWithPath("method").description("요청 Http Method"),
                     fieldWithPath("path").description("요청 URI"),
-                    fieldWithPath("errorDetails[0].objectName").description("에러 객체 명"),
-                    fieldWithPath("errorDetails[0].field").description("에러 필드"),
-                    fieldWithPath("errorDetails[0].code").description("에러 상세 코드"),
-                    fieldWithPath("errorDetails[0].rejectMessage").description("에러 메세지"),
-                    fieldWithPath("errorDetails[0].rejectedValue").description("에러 요청 값"),
+                    fieldWithPath("errorDetails[*]").description("에러 상세 정보(배열)"),
+                    fieldWithPath("errorDetails[*].objectName").description("에러 객체 명"),
+                    fieldWithPath("errorDetails[*].field").description("에러 필드"),
+                    fieldWithPath("errorDetails[*].code").description("에러 상세 코드"),
+                    fieldWithPath("errorDetails[*].rejectMessage").description("에러 메세지"),
+                    fieldWithPath("errorDetails[*].rejectedValue").description("에러 요청 값"),
                 )
             )
         }
@@ -69,7 +70,7 @@ class ProjectDocumentGenerator {
                     fieldWithPath("lastPage").description("마지막 페이지 여부"),
                     fieldWithPath("hasNextPage").description("다음 페이지 존재 여부"),
                     fieldWithPath("hasPrevious").description("이전 페이지 존재 여부"),
-                    fieldWithPath("embedded[*]").description("컨텐츠 정보"),
+                    fieldWithPath("embedded[*]").description("컨텐츠 정보(배열)"),
                 )
             )
         }
