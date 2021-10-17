@@ -1,4 +1,4 @@
-Project - [WhyPie]소개 영어로
+Project - [WhyPie]
 ===
 
 ## Coming soon Deploy ..
