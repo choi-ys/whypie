@@ -8,6 +8,7 @@ Project - [WhyPie]소개 영어로
  - Services
  - Features
  - Goals
+   - Generate API Docs based on TC: https://062.notion.site/Spring-REST-Docs-API-19b0c3953ee54135afbd701be61413cf
  - Diagrams
  - Issue tracking
  - Git Flow : https://062.notion.site/Git-Branch-Flow-Chart-f244a100e55e47bd85b31f6d527912aa
