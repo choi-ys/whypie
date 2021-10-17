@@ -47,15 +47,23 @@ Project - [WhyPie]
 ```
 
 ## TODO
-
-> Spring REST Docs를 이용한 TC 기반의 API Docs 생성
->
-> spring cloud config + private VCS를 이용한 설정 중앙화
-> 
-> sleuth + zipkin을 이용한 log transaction 처리
-> 
-> eureka & spring boot admin을 이용한 client discovery 적용
->
 > CI를 위한 Jenkinsfile 작성
 >
 > Docker 이미지 빌드를 위한 Dockerfile 작성
+>
+> spring cloud config + private VCS를 이용한 설정 중앙화
+>```
+> spring-cloud-config server + github private(ssh) connection
+>  - AS-IS : Native (file-based configurations)
+>  - TO-BE : GitHub Private SSH connection (remote repository configurations)
+>    - OR : spring-cloud-vault 고려
+> ```
+>
+> Spring REST Docs를 이용한 TC 기반의 API Docs 생성
+> ```
+> authorization-api snippets 생성 부 작성
+> ```
+>
+> sleuth + zipkin을 이용한 log transaction 처리
+> 
+> eureka & spring boot admin을 이용한 client discovery 적용
