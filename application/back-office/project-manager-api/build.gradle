@@ -15,16 +15,10 @@ ext {
     snippetsDir = file('build/generated-snippets')
 }
 
+apply from: "../../api-server.gradle"
 dependencies {
     api project(":domain-rds-entity-core")
-    api project(":in-system-web-core-exception-handler")
-    api project(":in-system-web-core-authorization-filter")
-
-    implementation("org.springframework.boot:spring-boot-starter-web")
-
     testApi project(":domain-rds-entity-core").sourceSets.test.output
-    testApi project(":in-system-web-core-exception-handler").sourceSets.test.output
-    testApi project(":in-system-web-core-authorization-filter").sourceSets.test.output
 
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     asciidoctorExtensions("org.springframework.restdocs:spring-restdocs-asciidoctor")

@@ -1,3 +1,5 @@
+apply from: "../../discovery-client.gradle"
+
 ext {
     set('springBootAdminVersion', "2.5.1")
 }

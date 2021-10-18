@@ -2,6 +2,9 @@ server:
   port: 9002
 
 spring:
+  application:
+    name: project-manager-api-local
+
   # [JPA]
   jpa:
     hibernate:
@@ -14,3 +17,12 @@ jwt:
   audience: test-client
   access-token-validity-in-seconds-term: 600 # access token의 유효 기간 : 10분
   refresh-token-validity-in-seconds-term: 1200 # refresh token의 유효 기간 : 20분
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}

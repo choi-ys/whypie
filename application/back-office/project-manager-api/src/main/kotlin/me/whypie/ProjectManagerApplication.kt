@@ -2,12 +2,14 @@ package me.whypie
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
 /**
  * @author : choi-ys
  * @date : 2021/10/05 11:51 오전
  */
 @SpringBootApplication(scanBasePackages = ["me.whypie"])
+@EnableDiscoveryClient
 class ProjectManagerApplication
 
 fun main(args: Array<String>) {

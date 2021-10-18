@@ -1,3 +1,5 @@
+apply from: "../../discovery-client.gradle"
+
 dependencies {
     api project(":domain-member-service")
     api project(":domain-redis-token-cache")
