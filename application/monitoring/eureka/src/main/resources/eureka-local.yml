@@ -1,0 +1,9 @@
+eureka:
+  server:
+    enable-self-preservation: false # eureka에 등록된 server의 health check , 운영 환경에서 false 권장
+    instance:
+      hostname: localhost
+      prefer-ip-address: true
+  client:
+    register-with-eureka: false # 해당 eureka 서버를 clinet로 등록 하지 않음
+    fetch-registry: false # clinet의 서비스 리스트 registry 캐싱 미사용

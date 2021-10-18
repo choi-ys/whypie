@@ -1,0 +1,6 @@
+server:
+  port: 8761
+
+spring:
+  config:
+    import: eureka-local.yml
