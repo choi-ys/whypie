@@ -1,0 +1,2 @@
+apply from: "../../discovery-client.gradle"
+apply from: "../../../in-system/web-core/web-core.gradle"

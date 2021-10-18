@@ -1,0 +1,6 @@
+dependencies {
+    api project(":in-system-web-core-exception-handler")
+    api project(":in-system-web-core-authorization-filter")
+    testApi project(":in-system-web-core-exception-handler").sourceSets.test.output
+    testApi project(":in-system-web-core-authorization-filter").sourceSets.test.output
+}
