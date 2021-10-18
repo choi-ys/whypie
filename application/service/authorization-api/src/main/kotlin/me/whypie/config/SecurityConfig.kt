@@ -32,6 +32,7 @@ class SecurityConfig(
 
             .authorizeRequests {
                 it
+                    .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/member/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/member/me").hasRole(MemberRole.CERTIFIED_MEMBER.name)
                     .antMatchers(HttpMethod.POST, "/member", "/login", "/logout").permitAll()

@@ -33,6 +33,7 @@ class SecurityConfig(
 
             .authorizeRequests {
                 it
+                    .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                     .antMatchers(HttpMethod.GET, "/project/**", "/project/member").permitAll()
                     .antMatchers(HttpMethod.POST, "/project").hasRole(MemberRole.CERTIFIED_MEMBER.name)
                     .antMatchers(HttpMethod.PATCH, "/project/**").hasRole(MemberRole.CERTIFIED_MEMBER.name)

@@ -10,6 +10,7 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+# [jwt]
 jwt:
   signature: local-signature-key
   issuer: me.whypie.authorization
@@ -18,6 +19,7 @@ jwt:
   access-token-validity-in-seconds-term: 600 # access token의 유효 기간 : 10분
   refresh-token-validity-in-seconds-term: 1200 # refresh token의 유효 기간 : 20분
 
+# [Eureka]
 eureka:
   client:
     serviceUrl:
@@ -26,3 +28,13 @@ eureka:
     leaseRenewalIntervalInSeconds: 10
     metadataMap:
       instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+
+# [Spring Boot Actuator]
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
