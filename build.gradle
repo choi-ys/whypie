@@ -46,6 +46,7 @@ subprojects {
     apply plugin: "kotlin-spring"
     apply plugin: "kotlin-jpa"
     apply plugin: "kotlin-allopen"
+    apply plugin: "jacoco"
     allOpen {
         annotation "javax.persistence.Entity"
     }
@@ -105,6 +106,68 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        finalizedBy 'jacocoTestReport'
+    }
+
+    jacoco {
+        toolVersion = "0.8.7"
+    }
+
+    jacocoTestReport {
+        reports {
+            html.enabled true
+            csv.enabled false
+            xml.enabled false
+        }
+
+        // QueryDSL로 인해 생성되는 *QEntity를 Test Coverage 산정 리포트에서 제외
+        def Qdomains = []
+        for (qPattern in '**/QA'..'**/QZ') { // qPattern = '**/QA', '**/QB', ... '*.QZ'
+            Qdomains.add(qPattern + '*')
+        }
+
+        // 여기부터
+        afterEvaluate {
+            classDirectories.setFrom(
+                    files(classDirectories.files.collect {
+                        fileTree(dir: it, excludes: [
+                                "**/*Application.class",
+                                "**/config/redis/*",
+                                "**/config/p6spy/*"
+                        ] + Qdomains)
+                    })
+            )
+        }
+
+        finalizedBy 'jacocoTestCoverageVerification'
+    }
+
+// https://www.baeldung.com/jacoco-report-exclude
+    jacocoTestCoverageVerification {
+        // QueryDSL로 인해 생성되는 *QEntity를 Test Coverage 산정 시 제외
+        def Qdomains = []
+        for (qPattern in '*.QA'..'*.QZ') { // qPattern = '*.QA', '*.QB', ... '*.QZ'
+            Qdomains.add(qPattern + '*')
+        }
+
+        violationRules {
+            rule {
+                enabled = true
+                element = 'CLASS'
+
+                excludes = [
+                        "**/*Application.class",
+                        "**/config/redis/*",
+                        "**/config/p6spy/*"
+                ] + Qdomains
+
+                limit {
+                    counter = 'LINE'
+                    value = 'COVEREDRATIO'
+                    minimum = 0.5
+                }
+            }
+        }
     }
 }
 
@@ -123,10 +186,10 @@ tasks.withType(Test) {
 }
 
 // Report generationPermalink Options : TC 수행 결과 Report 생성 제외로 인한 성능 향상
-tasks.withType(Test) {
-    reports.html.enabled = false
-    reports.junitXml.enabled = false
-}
+//tasks.withType(Test) {
+//    reports.html.enabled = false
+//    reports.junitXml.enabled = false
+//}
 
 // Compiler daemon Options
 tasks.withType(JavaCompile) {
