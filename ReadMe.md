@@ -83,3 +83,5 @@ Project - [WhyPie]
 > sleuth + zipkin을 이용한 log transaction 처리
 > 
 > eureka & spring boot admin을 이용한 client discovery 적용
+> 
+> jacoco를 이용한 test coverage 산출
