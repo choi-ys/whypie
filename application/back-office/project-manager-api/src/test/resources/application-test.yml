@@ -17,3 +17,7 @@ jwt:
   audience: test-client
   access-token-validity-in-seconds-term: 600 # access token의 유효 기간 : 10분
   refresh-token-validity-in-seconds-term: 1200 # refresh token의 유효 기간 : 20분
+
+eureka:
+  client:
+    enabled: false

@@ -3,6 +3,7 @@ package me.whypie.repository
 import me.whypie.config.DataRedisTestConfig
 import me.whypie.model.entity.CertificationMailCache
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test
  * @date : 2021-10-03 오후 10:07
  */
 @DisplayName("Redis:Repo:CertificationMailCache")
+@Disabled
 internal class CertificationMailCacheRepoTest(
     private val certificationMailCacheRepo: CertificationMailCacheRepo,
 ) : DataRedisTestConfig() {
