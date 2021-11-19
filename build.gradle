@@ -131,9 +131,7 @@ subprojects {
             classDirectories.setFrom(
                     files(classDirectories.files.collect {
                         fileTree(dir: it, excludes: [
-                                "**/*Application.class",
-                                "**/config/redis/*",
-                                "**/config/p6spy/*"
+                                "**/*Application*.*",
                         ] + Qdomains)
                     })
             )
@@ -156,15 +154,13 @@ subprojects {
                 element = 'CLASS'
 
                 excludes = [
-                        "**/*Application.class",
-                        "**/config/redis/*",
-                        "**/config/p6spy/*"
+                        "**/*Application*.*",
                 ] + Qdomains
 
                 limit {
                     counter = 'LINE'
                     value = 'COVEREDRATIO'
-                    minimum = 0.5
+//                    minimum = 0.5
                 }
             }
         }
