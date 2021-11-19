@@ -4,6 +4,7 @@ import me.whypie.config.DataRedisTestConfig
 import me.whypie.model.entity.BlackListTokenCache
 import me.whypie.model.vo.Token
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import java.util.*
@@ -14,6 +15,7 @@ import kotlin.NoSuchElementException
  * @date : 2021/10/06 5:13 오후
  */
 @DisplayName("Redis:Repo:BlackListTokenCacheRepo")
+@Disabled
 internal class BlackListTokenCacheRepoTest(
     private val blackListTokenCacheRepo: BlackListTokenCacheRepo,
 ) : DataRedisTestConfig() {
